@@ -18,10 +18,10 @@ body {
 }
 
 .activity-card {
-  border-radius: 15px;
+  border-radius: 20px;
   background-clip: padding-box;
   background-color: #292929;
-  background-color: rgba(20, 20, 20, 0.8);
+  background-color: rgba(30, 30, 40, 0.8);
   border: 10px solid transparent;
   padding: 20px;
 }

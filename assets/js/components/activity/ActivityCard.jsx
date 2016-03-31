@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ActivityControls from './ActivityControls.jsx';
 
 export default class ActivityCard extends React.Component {
     constructor() {
@@ -13,7 +14,10 @@ export default class ActivityCard extends React.Component {
         var activity = this.props.activity;
         return (
             <div className="activity-card">
-                <h2>{ activity.title }</h2>
+                <h2>
+                        <ActivityControls activity= { activity }/>
+                        { activity.title }
+                </h2>
                 <div className="clearfix">
                     <div className='pull-left'>
                         <b>{activity.category}</b>
