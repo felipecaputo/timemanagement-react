@@ -42,7 +42,7 @@ export default class ActivityStore extends EventEmmiter {
      * @param {number} activityId The id of the activity that will be started
      */
     startActivity(activityId) {
-        
+
     }
     stopActivity(activityId){
         

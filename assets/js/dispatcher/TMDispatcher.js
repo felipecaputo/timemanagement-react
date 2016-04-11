@@ -1,5 +1,9 @@
-import {Dispatcher} from 'flux';
+import * as Flux from 'flux';
 
-export default class TM extends Dispatcher {
+class TMDispatcher extends Flux.Dispatcher {
     
 }
+
+let dispatcher = new TMDispatcher();
+
+export default dispatcher;

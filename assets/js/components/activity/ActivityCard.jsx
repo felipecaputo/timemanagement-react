@@ -15,8 +15,8 @@ export default class ActivityCard extends React.Component {
         return (
             <div className="activity-card">
                 <h2>
-                        <ActivityControls activity= { activity }/>
-                        { activity.title }
+                    <ActivityControls activity= { activity }/>
+                    { activity.title }
                 </h2>
                 <div className="clearfix">
                     <div className='pull-left'>
