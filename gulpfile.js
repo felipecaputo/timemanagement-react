@@ -34,7 +34,7 @@ gulp.task('deploy', function (){
 });
  
 gulp.task('watch', function () {
-	gulp.watch(['./assets/js/*.js'], ['scripts']);
+	gulp.watch(['./assets/js/*.js','./assets/js/*.jsx'], ['scripts']);
 });
  
 // When running 'gulp' on the terminal this task will fire.
@@ -50,6 +50,7 @@ function bundleApp(isProduction) {
 	// us use modules in the front end.
 	var appBundler = browserify({
     	entries: './assets/js/app.js',
+		extensions: ['.js','.json','.jsx'],
     	debug: true
   	})
  
@@ -78,7 +79,9 @@ function bundleApp(isProduction) {
  
   	appBundler
   		// transform ES6 and JSX to ES5 with babelify
-	  	.transform("babelify", {presets: ["es2015", "react"]})
+	  	.transform("babelify", {
+			  presets: ["es2015", "react"]
+			})
 	    .bundle()
 	    .on('error',gutil.log)
 	    .pipe(source('bundle.js'))

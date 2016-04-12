@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
-import ActivityControls from './ActivityControls.jsx';
+import * as React from 'react';
+import ActivityControls from './ActivityControls';
 
 export default class ActivityCard extends React.Component {
     constructor() {

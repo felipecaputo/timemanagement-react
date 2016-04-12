@@ -1,17 +1,20 @@
 'use strict';
 
+import { EventEmitter } from 'events';
+
 import TMDispatcher from '../dispatcher/TMDispatcher';
 import ActivityConsts from '../constants/ActivityConstants';
-import { EventEmmiter } from 'events';
+import ActivityUtils from '../util/ActivityUtils';
+
 
 /**
  * (description)
  * 
  * @export
  * @class ActivityStore
- * @extends {EventEmmiter}
+ * @extends {EventEmitter}
  */
-export default class ActivityStore extends EventEmmiter {
+class ActivityStore extends EventEmitter {
     /**
      * Creates an instance of ActivityStore.
      */
@@ -34,6 +37,11 @@ export default class ActivityStore extends EventEmmiter {
                 break;
             case ActivityConsts.ACTIVITY_STOPED:
                 this.stopActivity(action.activityId);
+                break;
+            case ActivityConsts.ACTIVITY_CREATE_NEW:
+                alert('worked2');
+                console.log('it works!!!');
+                break;
         }
     }
     /**
@@ -47,4 +55,11 @@ export default class ActivityStore extends EventEmmiter {
     stopActivity(activityId){
         
     }
+    getActivities(){
+        
+    }
 }
+
+let store = new ActivityStore();
+
+export default store;

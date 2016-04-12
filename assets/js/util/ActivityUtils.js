@@ -1,15 +1,15 @@
 "use strict";
 
-import DB from './StorageUtil.js';
+import DB from './StorageUtil';
 import ActivityConstants from '../constants/ActivityConstants';
 
 class ActivityUtils {
     /**
-     * (description)
+     * Get all activities with an [Active] status 
      * 
-     * @returns {Promise} A promise that resolves to an activity list
+     * @returns {Promise<ActivityList[]>} A promise that resolves to an activity list
      */
-    getActivities() {
+    getCurrentActivities() {
         return new Promise( (resolve, reject) => {
             DB.activities.where('status').equals(ActivityConstants.ACTIVITY_STATUS_ACTIVE).toArray()
                 .then( activityList => {
@@ -19,3 +19,7 @@ class ActivityUtils {
         })
     }
 }
+
+let activityUtils = new ActivityUtils();
+
+export default activityUtils;
