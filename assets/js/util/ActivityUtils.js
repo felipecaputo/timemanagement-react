@@ -3,6 +3,7 @@
 import DB from './StorageUtil';
 import ActivityConstants from '../constants/ActivityConstants';
 import ActivityActions from '../actions/ActivityActionCreator';
+import TMDispatcher from '../dispatcher/TMDispatcher';
 
 class ActivityUtils {
     /**
@@ -11,14 +12,16 @@ class ActivityUtils {
      * @returns {Promise<ActivityList[]>} A promise that resolves to an activity list
      */
     getCurrentActivities() {
-        return new Promise( (resolve, reject) => {
-            DB.activities.where('status').equals(ActivityConstants.ACTIVITY_STATUS_ACTIVE).toArray()
-                .then( activityList => {
-                    resolve(activityList)
-                })
-                .catch( error => reject(error));            
-        })
+        DB.activities.where('status').equals(ActivityConstants.ACTIVITY_STATUS_ACTIVE).toArray()
+            .then( activityList => {
+                TMDispatcher.handleRequestAction({
+                    type: ActivityConstants.ACTIVITY_LIST_UPDATED,
+                    activityList: activityList
+                });
+            })
+            .catch( error => reject(error));
     }
+    
     addNewActivity(activity) {
         return new Promise( (resolve, reject) => {
             if (activity.id) {

@@ -47,7 +47,7 @@ class ActivityActions {
     updateActivityList(activityList) {
         Dispatcher.dispatch({
             type: ActivityConstants.ACTIVITY_LIST_UPDATED,
-            activityList = activityList
+            activityList: activityList
         });
     }
     notifyActivityCreated(activity) {

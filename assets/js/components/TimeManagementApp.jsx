@@ -18,7 +18,7 @@ export default class TimeManagementApp extends React.Component {
                 <AppToolBar />
                 <hl/>
                 <div className='container'>
-                    <ActivityList />
+                    <ActivityList activityList={ ActivityStore.activityList }/>
                 </div>
             </div>
         );

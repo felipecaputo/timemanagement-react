@@ -4,6 +4,10 @@ class TMDispatcher extends Flux.Dispatcher {
     constructor(){
         super();
     }
+    handleRequestAction(payload) {
+        payload.origin = 'REQUEST';
+        this.dispatch(payload);
+    } 
 }
 
 let dispatcher = new TMDispatcher();
