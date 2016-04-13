@@ -38,9 +38,22 @@ class ActivityActions {
      * or else it`ll be create with default values  
      */
     createNew(showCreateWindow = true){
+        console.log('worked2');
         Dispatcher.dispatch({
             type: ActivityConstants.ACTIVITY_CREATE_NEW,
             showCreateWindows: showCreateWindow
+        })
+    }
+    updateActivityList(activityList) {
+        Dispatcher.dispatch({
+            type: ActivityConstants.ACTIVITY_LIST_UPDATED,
+            activityList = activityList
+        });
+    }
+    notifyActivityCreated(activity) {
+        Dispatcher.dispatch({
+            type: ActivityConstants.ACTIVITY_CREATED,
+            activity: activity
         })
     }
 }

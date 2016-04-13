@@ -5,6 +5,7 @@ import { EventEmitter } from 'events';
 import TMDispatcher from '../dispatcher/TMDispatcher';
 import ActivityConsts from '../constants/ActivityConstants';
 import ActivityUtils from '../util/ActivityUtils';
+import ActivityActions from '../actions/ActivityActionCreator';
 
 
 /**
@@ -20,7 +21,9 @@ class ActivityStore extends EventEmitter {
      */
     constructor() {
         super();
-        TMDispatcher.register(this._onAction);
+        this.dispId = TMDispatcher.register(this._onAction);
+        this.activityList = [];
+        console.log('Id:', this.dispId);
     }
     emitChange() {
         this.emit('CHANGE');
@@ -30,17 +33,20 @@ class ActivityStore extends EventEmitter {
      * 
      * @param {Object} action JSXAction to be processed by store
      */
-    _onAction(action){
-        switch (action.actionType) {
+    _onAction(payload){
+        switch (payload.type) {
             case ActivityConsts.ACTIVITY_STARTED:
-                this.startActivity(action.activityId);
+                this.startActivity(payload.activityId);
                 break;
             case ActivityConsts.ACTIVITY_STOPED:
-                this.stopActivity(action.activityId);
+                this.stopActivity(payload.activityId);
                 break;
             case ActivityConsts.ACTIVITY_CREATE_NEW:
                 alert('worked2');
                 console.log('it works!!!');
+                break;
+            case ActivityConsts.ACTIVITY_LIST_UPDATED:
+                this.activityList = payload.activityList;
                 break;
         }
     }
@@ -56,7 +62,10 @@ class ActivityStore extends EventEmitter {
         
     }
     getActivities(){
-        
+        ActivityUtils.getCurrentActivities()
+            .then( activityList => {
+                ActivityActions.updateActivityList(activityList);
+            } )
     }
 }
 

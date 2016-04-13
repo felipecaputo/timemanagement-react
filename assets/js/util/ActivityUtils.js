@@ -2,6 +2,7 @@
 
 import DB from './StorageUtil';
 import ActivityConstants from '../constants/ActivityConstants';
+import ActivityActions from '../actions/ActivityActionCreator';
 
 class ActivityUtils {
     /**
@@ -17,6 +18,21 @@ class ActivityUtils {
                 })
                 .catch( error => reject(error));            
         })
+    }
+    addNewActivity(activity) {
+        return new Promise( (resolve, reject) => {
+            if (activity.id) {
+                reject('Cannot add a new ativity that already have an Id');
+                return;
+            }
+            
+            db.activities.add(activity)
+                .then( id => {
+                    activity.id = id;
+                    ActivityActions.notifyActivityCreated(activity);
+                })
+                .catch( err => reject(err));
+        } )
     }
 }
 
