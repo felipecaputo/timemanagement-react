@@ -31,15 +31,12 @@ class ActivityStore extends FluxUtils.Store {
         switch (payload.type) {
             case ActivityConsts.ACTIVITY_STARTED:
                 this.startActivity(payload.activityId);
-                this.__emitChange()
                 break;
             case ActivityConsts.ACTIVITY_STOPED:
                 this.stopActivity(payload.activityId);
-                this.__emitChange()
                 break;
             case ActivityConsts.ACTIVITY_CREATE_NEW:
-                alert('worked2');
-                console.log('it works!!!');
+                this.__fireCreateNew();
                 break;
             case ActivityConsts.ACTIVITY_LIST_UPDATED:
                 this.__setActivityList(payload.activityList);
@@ -50,12 +47,24 @@ class ActivityStore extends FluxUtils.Store {
         }
     }
     __addActivity(activity){
-        this.___activityList.push(activity);
+        this.__activityList.push(activity);
         this.__emitChange();
     }
     __setActivityList(activityList) {
-        this.___activityList = activityList;
+        this.__activityList = activityList;
         this.__emitChange();
+    }
+    __fireCreateNew(){
+        this.showCreateModal = true
+        this.__emitChange();
+    }
+    /**
+     * Returns the internal activity list
+     * 
+     * @returns {ActivityList[]} Activity list
+     */
+    getActivityList() {
+        return this.__activityList;
     }
     /**
      * Starts the activity with the informed id
@@ -63,10 +72,10 @@ class ActivityStore extends FluxUtils.Store {
      * @param {number} activityId The id of the activity that will be started
      */
     startActivity(activityId) {
-
+        this.__emitChange()
     }
     stopActivity(activityId){
-        
+        this.__emitChange()
     }
 }
 

@@ -8,9 +8,20 @@ import ActivityStore from '../../stores/ActivityStore';
 export default class ActivityList extends React.Component {
     constructor(){
         super();
+        this.state = { activityList: ActivityStore.getActivityList() };
+        this.__handleChange = this.__handleChange.bind(this);
+        this.listenerToken;
     }
-    componentDidMout(){
-        
+    __handleChange() {
+        this.setState({
+            activityList: ActivityStore.getActivityList()
+        });
+    } 
+    componentDidMount(){
+        this.listenerToken = ActivityStore.addListener(this.__handleChange);
+    }
+    componentWillUnmount() {
+        ActivityStore.remove(this.listenerToken);
     }
     render(){
         var activityList = this.props.activityList || [];
@@ -26,7 +37,3 @@ export default class ActivityList extends React.Component {
         );
     }
 }
-
-ActivityList.propTypes = {
-    activityList: React.PropTypes.array.isRequired
-};

@@ -18,7 +18,8 @@ var babelify = require('babelify');
 // but include in your application deployment
 var dependencies = [
 	'react',
-  	'react-dom'
+  	'react-dom',
+	'react-bootstrap'
 ];
 // keep a count of the times a task refires
 var scriptsCount = 0;
@@ -34,7 +35,7 @@ gulp.task('deploy', function (){
 });
  
 gulp.task('watch', function () {
-	gulp.watch(['./assets/js/*.js','./assets/js/*.jsx'], ['scripts']);
+	gulp.watch(['./assets/js/**.js','./assets/js/**.jsx'], ['scripts']);
 });
  
 // When running 'gulp' on the terminal this task will fire.

@@ -4,21 +4,32 @@ import * as React from 'react';
 import ActivityList from './activity/ActivityList';
 import AppTile from './AppTitle';
 import AppToolBar from './AppToolBar';
-import ActivityStore from '../stores/ActivityStore';
+import ActivityAction from '../actions/ActivityActionCreator';
+import CreateActivityModal from './activity/CreateActivityModal';
 
 export default class TimeManagementApp extends React.Component {
     constructor(){
         super();
-        ActivityStore.getActivities();
+        ActivityAction.getCurrentActivities();
+        this.__handleCreateNewActivity= this.__handleCreateNewActivity.bind(this);
+        this.state = {
+            showingCreate: false
+        };
+    }
+    __handleCreateNewActivity() {
+        this.setState({
+            showingCreate: true
+        })
     }
     render(){
         return (
             <div className='container-fluid'>
                 <AppTile />
-                <AppToolBar />
+                <AppToolBar onCreateNewActivity={ this.__handleCreateNewActivity }/>
                 <hl/>
                 <div className='container'>
-                    <ActivityList activityList={ ActivityStore.activityList }/>
+                    <CreateActivityModal show={ this.state.showingCreate } />
+                    <ActivityList />
                 </div>
             </div>
         );

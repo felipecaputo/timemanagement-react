@@ -10,8 +10,7 @@ export default class AppToolBar extends React.Component {
         this._handleCreateNew = this._handleCreateNew.bind(this);
     }
     _handleCreateNew() {
-        alert('worked1');
-        ActivityActions.createNew();
+        this.props.onCreateNewActivity();
     }
     render(){
         return (
@@ -25,4 +24,8 @@ export default class AppToolBar extends React.Component {
             </div>
         )
     }
+}
+
+AppToolBar.propTypes = {
+    onCreateNewActivity: React.PropTypes.func.isRequired
 }

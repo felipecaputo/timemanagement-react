@@ -12,14 +12,16 @@ class ActivityUtils {
      * @returns {Promise<ActivityList[]>} A promise that resolves to an activity list
      */
     getCurrentActivities() {
-        DB.activities.where('status').equals(ActivityConstants.ACTIVITY_STATUS_ACTIVE).toArray()
-            .then( activityList => {
-                TMDispatcher.handleRequestAction({
-                    type: ActivityConstants.ACTIVITY_LIST_UPDATED,
-                    activityList: activityList
-                });
-            })
-            .catch( error => reject(error));
+        return new Promise( (resolve, reject) => {
+            DB.activities.where('status').equals(ActivityConstants.ACTIVITY_STATUS.ACTIVE).toArray()
+                .then( activityList => {
+                    TMDispatcher.handleRequestAction({
+                        type: ActivityConstants.ACTIVITY_LIST_UPDATED,
+                        activityList: activityList
+                    });
+                })
+                .catch( error => reject(error));
+        })
     }
     
     addNewActivity(activity) {

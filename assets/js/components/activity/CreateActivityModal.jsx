@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/lib/Modal';
 export default class CreateActivityModal extends React.Component {
     render() {
         return (
-            <Modal>
+            <Modal show={ this.props.show }>
                 <Modal.Header>
                     <Modal.Title> New Activity </Modal.Title>
                 </Modal.Header>
