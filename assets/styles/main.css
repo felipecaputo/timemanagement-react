@@ -38,3 +38,11 @@ body {
 .clearfix {
   overflow: auto;
 }
+
+.modal-dialog {
+  background-color: #292929 !important;
+}
+
+.modal-content {
+  background-color: inherit;
+}
