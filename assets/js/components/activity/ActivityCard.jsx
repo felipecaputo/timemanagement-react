@@ -5,17 +5,16 @@ import ActivityControls from './ActivityControls';
 
 export default class ActivityCard extends React.Component {
     constructor() {
-      super();
-      this.state = {
-          activity: undefined
-      }
+        super();
+        this.state = {
+            activity: undefined
+        }
     }
     render() {
         var activity = this.props.activity;
         return (
             <div className="activity-card">
                 <h2>
-                    <ActivityControls activity= { activity }/>
                     { activity.title }
                 </h2>
                 <div className="clearfix">
@@ -29,6 +28,7 @@ export default class ActivityCard extends React.Component {
                 <div>
                     {activity.description}
                 </div>
+                <ActivityControls activity= { activity }/>
             </div>
         );
     }

@@ -31,10 +31,15 @@ class ActivityUtils {
                 return;
             }
             
-            db.activities.add(activity)
+            if (!activity.status)
+                activity.status = ActivityConstants.ACTIVITY_STATUS.ACTIVE;
+            
+            if (!activity.running) activity.running = false;
+            
+            DB.activities.add(activity)
                 .then( id => {
                     activity.id = id;
-                    ActivityActions.notifyActivityCreated(activity);
+                    resolve(activity)
                 })
                 .catch( err => reject(err));
         } )

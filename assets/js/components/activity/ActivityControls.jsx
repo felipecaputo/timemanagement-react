@@ -2,20 +2,31 @@
 
 import * as React from 'react';
 import ActionCreator from '../../actions/ActivityActionCreator';
+import { humanizedDuration } from '../../util/TimeUtils';
 
 export default class ActivityControls extends React.Component {
     constructor(props){
         super(props);
-        this.state = { activity: undefined, counting: false, currentDuration: 0 };
+        this.state = { activity: undefined, running: false, currentDuration: 0 };
         this._handleStart = this._handleStart.bind(this);
+        this._handleStop = this._handleStop.bind(this);
+        this._tick = this._tick.bind(this);
     }
     _handleStart(){
         ActionCreator.startActivity(this.props.activity.id);
+        this.setState({
+            running: true
+        })
+        this.intervalId = setInterval(this._tick, 1000);
     }
     _handleStop() {
+        clearInterval(this.intervalId);
         ActionCreator.stopActivity(this.props.activity.id);
+        this.setState({
+            running: false
+        });
     }
-    _thick() {
+    _tick() {
         this.setState({
             currentDuration: this.state.currentDuration + 1
         });
@@ -23,21 +34,29 @@ export default class ActivityControls extends React.Component {
     render() {
         let activity = this.props.activity;
         let button;
-        if(!activity.running){
+        
+        if(!this.state.running){
             button = (
-                <button className="btn btn-small btn-success" onCLick={this.props.onPlay}>
+                <button className="btn btn-small btn-success" onClick={this._handleStart}>
                     <span className="glyphicon glyphicon-play"></span>
                 </button>
             )     
         }  else {
             button = (
-                <button className="btn btn-small btn-danger" onCLick={this.props.onPlay}>
+                <button className="btn btn-small btn-danger" onClick={this._handleStop}>
                     <span className="glyphicon glyphicon-stop"></span>
                 </button>
             )
         }
         
-        return button;
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-4">{ humanizedDuration(this.state.currentDuration) }</div>
+                    <div className="col-md-4">{button}</div>
+                </div>
+            </div>
+        )
     }
 }
 

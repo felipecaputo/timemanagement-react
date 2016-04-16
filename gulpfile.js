@@ -13,13 +13,18 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var gutil = require('gulp-util');
 var babelify = require('babelify');
+var uglify = require('gulp-uglify');
+var buffer = require('vinyl-buffer');
  
 // External dependencies you do not want to rebundle while developing,
 // but include in your application deployment
 var dependencies = [
 	'react',
   	'react-dom',
-	'react-bootstrap'
+	'react-bootstrap',
+	'dexie',
+	'flux',
+	'object-assign'
 ];
 // keep a count of the times a task refires
 var scriptsCount = 0;
@@ -86,5 +91,7 @@ function bundleApp(isProduction) {
 	    .bundle()
 	    .on('error',gutil.log)
 	    .pipe(source('bundle.js'))
+		.pipe(buffer())
+		.pipe(uglify({preserveComments: "license"}))
 	    .pipe(gulp.dest('./assets/lib/'));
 }

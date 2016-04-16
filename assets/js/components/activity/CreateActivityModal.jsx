@@ -26,17 +26,30 @@ export default class CreateActivityModal extends React.Component {
         this.__handleSave = this.__handleSave.bind(this);
     }
     __handleChange(e) {
-        let newState = {};
-        let value = e.target.value;
+        let activity = this.state.activity;
+        let target = e.target;
         switch (e.target.id) {
-            case "modalActivityTitle":
-                newState.title = value;
+            case "maTitle":
+                activity.title = target.value;
                 break;
-        
+            case "maProject":
+                activity.project = target.options[target.selectedIndex].text;
+                activity.projectId = target.value;
+                break;
+            case "maCategory":
+                activity.category = target.options[target.selectedIndex].text;
+                activity.categoryId = target.value;
+                break;
+            case "maDescription":
+                activity.description = target.value;
+                break;
             default:
-                throw "Invalid targer for handleChange";
+                throw "Invalid target for handleChange";
         }
-                
+        
+        let newState = {
+            activity: activity
+        };
         this.setState(newState);
     }
     __handleSave(){
@@ -61,21 +74,24 @@ export default class CreateActivityModal extends React.Component {
                     <Modal.Title> New Activity </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>      
-                    { this.state.title }              
+                    { this.state.activity.title }              
                     <Input 
-                        type="text" id="modalActivityTitle" label="Title" placeholder="Activity title" 
-                        value={ this.state.title } onChange={ this.__handleChange } required/>
-                    <Input type="select" label="Project" placeholder="Project" buttonAfter={projectButton}>
+                        type="text" id="maTitle" label="Title" placeholder="Activity title" 
+                        value={ this.state.activity.title } onChange={ this.__handleChange } required/>
+                    <Input id="maProject" type="select" label="Project" placeholder="Project" 
+                        buttonAfter={projectButton} onChange={ this.__handleChange }>
                         <option value="1">Opcao1</option>
                         <option value="2">Opcao2</option>
                     </Input>
-                    <Input type="select" label="Category" placeholder="Project" buttonAfter={projectButton}>
+                    <Input id="maCategory" type="select" label="Category" placeholder="Project" 
+                        buttonAfter={projectButton} onChange={ this.__handleChange }>
                         <option value="1">Opcao1</option>
                         <option value="2">Opcao2</option>
                     </Input>
-                    <Input 
-                        type="textarea" id="modalActivityDescription" label="Description" placeholder="Description" 
-                        value={ this.state.description } onChange={ this.__handleChange } required/>
+                    <Input id="maDescription"
+                        type="textarea" label="Description" placeholder="Description" 
+                        value={ this.state.activity.description } onChange={ this.__handleChange } required/>
+                    <p> { JSON.stringify(this.state.activity) } </p>
                 </Modal.Body>
                 <Modal.Footer>
                     <ButtonToolbar>

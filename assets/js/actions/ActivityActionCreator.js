@@ -38,11 +38,14 @@ class ActivityActions {
             activityList: activityList
         });
     }
-    notifyActivityCreated(activity) {
-        Dispatcher.dispatch({
-            type: ActivityConstants.ACTIVITY_CREATED,
-            activity: activity
-        })
+    createActivity(activity) {
+        ActivityUtils.addNewActivity(activity)
+            .then( activity => {
+                Dispatcher.dispatch({
+                    type: ActivityConstants.ACTIVITY_CREATED,
+                    activity: activity
+                })
+            })
     }
     getCurrentActivities() {
         ActivityUtils.getCurrentActivities()

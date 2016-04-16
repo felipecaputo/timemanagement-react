@@ -24,14 +24,14 @@ export default class ActivityList extends React.Component {
         ActivityStore.remove(this.listenerToken);
     }
     render(){
-        var activityList = this.props.activityList || [];
+        var activityList = this.state.activityList || [];
         var activityElements = [];
         activityList.forEach( activity => {
             activityElements.push(<ActivityCard key={ activity.id } activity= { activity }/>);    
         });
         
         return (
-          <div className="container">
+        <div className="container">
             {activityElements}
           </div>  
         );
