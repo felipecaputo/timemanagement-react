@@ -1,23 +1,29 @@
 'use strict';
 
-import * as React from 'react';
-import Modal from 'react-bootstrap/lib/Modal';
+import * as React from 'react';import Modal from 'react-bootstrap/lib/Modal';
 import Input from 'react-bootstrap/lib/Input';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
+
 
 export default class CreateActivityModal extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            title: '',
-            projectId: -1,
-            project: '',
-            categoryId: -1,
-            category: '' 
+            activity: {
+                title: '',
+                description: '',
+                projectId: -1,
+                project: '',
+                categoryId: -1,
+                category: ''
+            },
+            processing: false 
         };
         
         this.__handleChange = this.__handleChange.bind(this);
+        this.__handleCancel = this.__handleCancel.bind(this);
+        this.__handleSave = this.__handleSave.bind(this);
     }
     __handleChange(e) {
         let newState = {};
@@ -33,8 +39,22 @@ export default class CreateActivityModal extends React.Component {
                 
         this.setState(newState);
     }
+    __handleSave(){
+        this.setState({
+            processing: true
+        });
+        this.props.onSave(this.state.activity);
+    }
+    __handleCancel() {
+        this.setState({
+            processing: true
+        });
+        this.props.onCancel();
+    }
     render() {
         let projectButton = <Button><span className="glyphicon glyphicon-plus"></span></Button>;
+        let categoryButton = <Button><span className="glyphicon glyphicon-plus"></span></Button>;
+        
         return (
             <Modal show={ this.props.show } className="activity-modal">
                 <Modal.Header>
@@ -49,11 +69,18 @@ export default class CreateActivityModal extends React.Component {
                         <option value="1">Opcao1</option>
                         <option value="2">Opcao2</option>
                     </Input>
+                    <Input type="select" label="Category" placeholder="Project" buttonAfter={projectButton}>
+                        <option value="1">Opcao1</option>
+                        <option value="2">Opcao2</option>
+                    </Input>
+                    <Input 
+                        type="textarea" id="modalActivityDescription" label="Description" placeholder="Description" 
+                        value={ this.state.description } onChange={ this.__handleChange } required/>
                 </Modal.Body>
                 <Modal.Footer>
                     <ButtonToolbar>
-                        <Button bsStyle="primary">Save</Button>
-                        <Button bsStyle="danger">Cancel</Button>
+                        <Button bsStyle="primary"onClick={this.__handleSave}>Save</Button>
+                        <Button bsStyle="danger" onClick={this.__handleCancel}>Cancel</Button>
                     </ButtonToolbar>
                 </Modal.Footer>
             </Modal>
@@ -62,5 +89,7 @@ export default class CreateActivityModal extends React.Component {
 }
 
 CreateActivityModal.propTypes = {
-    show: React.PropTypes.bool.isRequired
+    show: React.PropTypes.bool.isRequired,
+    onSave: React.PropTypes.func.isRequired,
+    onCancel: React.PropTypes.func.isRequired
 }

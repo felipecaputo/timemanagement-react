@@ -27,7 +27,7 @@ export default class ActivityCard extends React.Component {
                     </div>
                 </div>
                 <div>
-                    Teste de componente
+                    {activity.description}
                 </div>
             </div>
         );

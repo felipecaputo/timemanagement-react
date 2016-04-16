@@ -12,6 +12,9 @@ export default class TimeManagementApp extends React.Component {
         super();
         ActivityAction.getCurrentActivities();
         this.__handleCreateNewActivity= this.__handleCreateNewActivity.bind(this);
+        this.__handleCancelActivity = this.__handleCancelActivity.bind(this);
+        this.__handleSaveActivity = this.__handleSaveActivity.bind(this);
+        
         this.state = {
             showingCreate: false
         };
@@ -21,14 +24,27 @@ export default class TimeManagementApp extends React.Component {
             showingCreate: true
         })
     }
+    __handleSaveActivity(activity) {
+        
+    }
+    __handleCancelActivity(){
+        this.setState({
+            showingCreate: false
+        })
+    }
     render(){
+        var createModal;
+        if(this.state.showingCreate) {
+            createModal = <CreateActivityModal show={ this.state.showingCreate } onSave={this.__handleSaveActivity} onCancel={this.__handleCancelActivity}/>;
+        }
+         
         return (
             <div className='container-fluid'>
                 <AppTile />
                 <AppToolBar onCreateNewActivity={ this.__handleCreateNewActivity }/>
                 <hl/>
                 <div className='container'>
-                    <CreateActivityModal show={ this.state.showingCreate } />
+                    {createModal}
                     <ActivityList />
                 </div>
             </div>
