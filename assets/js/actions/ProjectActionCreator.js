@@ -3,7 +3,7 @@
 import ProjectCons from '../constants/ProjectConstants';
 import TMDispatcher from '../dispatcher/TMDispatcher';
 
-class ProjectActionCreate {
+class ProjectActionCreator {
     addProject(project){
         
     }
@@ -17,3 +17,7 @@ class ProjectActionCreate {
         
     }
 }
+
+let p = new ProjectActionCreator();
+
+export default p;

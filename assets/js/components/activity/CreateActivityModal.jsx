@@ -4,6 +4,7 @@ import * as React from 'react';import Modal from 'react-bootstrap/lib/Modal';
 import Input from 'react-bootstrap/lib/Input';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
+import ProjectModal from '../project/ProjectModal';
 
 
 export default class CreateActivityModal extends React.Component {
@@ -18,12 +19,14 @@ export default class CreateActivityModal extends React.Component {
                 categoryId: -1,
                 category: ''
             },
-            processing: false 
+            processing: false,
+            showProjectModal: false 
         };
         
         this.__handleChange = this.__handleChange.bind(this);
         this.__handleCancel = this.__handleCancel.bind(this);
         this.__handleSave = this.__handleSave.bind(this);
+        this.__showProjModal = this.__showProjModal.bind(this);
     }
     __handleChange(e) {
         let activity = this.state.activity;
@@ -64,9 +67,25 @@ export default class CreateActivityModal extends React.Component {
         });
         this.props.onCancel();
     }
+    __showProjModal(){
+        this.setState({
+            showProjectModal: true
+        })
+    }
+    __handleProjectCancel(){
+        
+    }
+    __handleProjectSaved(){
+        
+    }    
     render() {
-        let projectButton = <Button><span className="glyphicon glyphicon-plus"></span></Button>;
+        let projectButton = <Button><span className="glyphicon glyphicon-plus" onClick={this.__showProjModal}></span></Button>;
         let categoryButton = <Button><span className="glyphicon glyphicon-plus"></span></Button>;
+        let projModal;
+        if (this.state.showProjectModal) {
+            projModal = <ProjectModal onAfterSave={this.__handleProjectSaved}
+                onAfterCancel={this.__handleProjectCancel} show={this.state.showProjectModal}></ProjectModal>
+        } 
         
         return (
             <Modal show={ this.props.show } className="activity-modal">
@@ -79,12 +98,12 @@ export default class CreateActivityModal extends React.Component {
                         type="text" id="maTitle" label="Title" placeholder="Activity title" 
                         value={ this.state.activity.title } onChange={ this.__handleChange } required/>
                     <Input id="maProject" type="select" label="Project" placeholder="Project" 
-                        buttonAfter={projectButton} onChange={ this.__handleChange }>
+                        buttonAfter={projectButton} onChange={ this.__handleChange } value={ this.state.activity.projectId }>
                         <option value="1">Opcao1</option>
                         <option value="2">Opcao2</option>
                     </Input>
                     <Input id="maCategory" type="select" label="Category" placeholder="Project" 
-                        buttonAfter={projectButton} onChange={ this.__handleChange }>
+                        buttonAfter={projectButton} onChange={ this.__handleChange } value={ this.state.activity.categoryId }>
                         <option value="1">Opcao1</option>
                         <option value="2">Opcao2</option>
                     </Input>
@@ -95,10 +114,11 @@ export default class CreateActivityModal extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <ButtonToolbar>
-                        <Button bsStyle="primary"onClick={this.__handleSave}>Save</Button>
-                        <Button bsStyle="danger" onClick={this.__handleCancel}>Cancel</Button>
+                        <Button bsStyle="primary"onClick={this.__handleSave} disabled={this.state.processing}>Save</Button>
+                        <Button bsStyle="danger" onClick={this.__handleCancel} disabled={this.state.processing}>Cancel</Button>
                     </ButtonToolbar>
                 </Modal.Footer>
+                {projModal}
             </Modal>
         )
     }
