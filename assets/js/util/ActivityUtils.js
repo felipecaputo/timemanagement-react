@@ -9,7 +9,7 @@ class ActivityUtils {
     /**
      * Get all activities with an [Active] status 
      * 
-     * @returns {Promise<ActivityList[]>} A promise that resolves to an activity list
+     * @returns {Promise<Object[]>} A promise that resolves to an activity list
      */
     getCurrentActivities() {
         return new Promise( (resolve, reject) => {
@@ -24,6 +24,12 @@ class ActivityUtils {
         })
     }
     
+    /**
+     * Add a new activity to the database
+     * 
+     * @param {Object} activity The activity to be added in database
+     * @returns {Promise<Object>} that resolves with the activity after inserted in DB
+     */
     addNewActivity(activity) {
         return new Promise( (resolve, reject) => {
             if (activity.id) {

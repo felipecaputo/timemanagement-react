@@ -9,12 +9,17 @@ class ProjectStore extends FluxUtils.Store {
         super(dispatcher);
         this.projectsList = []
     }
+    __addProject(project){
+        this.projectsList.push(project);
+        this.__emitChange();
+    }
     __onDispatch(payload){
         switch (payload.type) {
             case ProjectCons.PROJECT_ACTIVATE:
                 
                 break;
             case ProjectCons.PROJECT_ADD:
+                this.__addProject(payload.project);
                 break;
             case ProjectCons.PROJECT_DEACTIVATE:
                 break;
