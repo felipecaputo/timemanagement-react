@@ -11,7 +11,18 @@
 		{
 			"taskName": "scripts",
 			"isBuildCommand": true,
-			"showOutput": "silent"
+			"showOutput": "never",
+			"isWatching": false
+		},
+		{
+			"taskName": "default",
+			"showOutput": "never",
+			"isWatching": true
+		},
+		{
+			"taskName": "watch",
+			"isWatching": true,
+			"showOutput": "never"
 		}
 	]
 }

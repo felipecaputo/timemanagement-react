@@ -29,3 +29,6 @@ class CategoryUtils {
         
     }
 }
+
+let c= new CategoryUtils();
+export default c;
