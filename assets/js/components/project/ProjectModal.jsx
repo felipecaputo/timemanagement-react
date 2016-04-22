@@ -25,6 +25,7 @@ export default class ProjectModal extends React.Component {
                 break;
             case 'maDescription':
                 s.description = e.target.value;
+                break;
             default:
                 throw `Invalid target for project modal ${e.target.id}`;
         }
@@ -43,23 +44,25 @@ export default class ProjectModal extends React.Component {
     }
     render() {
         return (
-            <Modal show={this.props.show}>
-                <Modal.Header>
-                    <Modal.Title>New Project</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Input type="text" label="Project Title" placeholder="Title" id="maTitle" 
-                        onChange={this.__handleChange} value={this.state.title} required/>
-                    <Input type="textarea" label="Description" placeholder="Description" id="maDescription"
-                        onChange={this.__handleChange} value={this.state.description} required/>
-                </Modal.Body>
-                <Modal.Footer>
-                    <ButtonToolbar>
-                        <Button onClick={this.__handleSave} bsStyle="primary">Save</Button>
-                        <Button onClick={this.__handleCancel} bsStyle="danger">Cancel</Button>
-                    </ButtonToolbar>
-                </Modal.Footer>
-            </Modal>
+            <form>
+                <Modal show={this.props.show}>
+                    <Modal.Header>
+                        <Modal.Title>New Project</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Input type="text" label="Project Title" placeholder="Title" id="maTitle" 
+                            onChange={this.__handleChange} value={this.state.title} required/>
+                        <Input type="textarea" label="Description" placeholder="Description" id="maDescription"
+                            onChange={this.__handleChange} value={this.state.description} required/>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <ButtonToolbar>
+                            <Button onClick={this.__handleSave} bsStyle="primary">Save</Button>
+                            <Button onClick={this.__handleCancel} bsStyle="danger">Cancel</Button>
+                        </ButtonToolbar>
+                    </Modal.Footer>
+                </Modal>
+            </form>
         )
     }
 }

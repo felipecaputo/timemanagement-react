@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import DB from './StorageUtil';
 import ActivityConstants from '../constants/ActivityConstants';

@@ -15,6 +15,7 @@ var gutil = require('gulp-util');
 var babelify = require('babelify');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
+var sourceMaps = require('gulp-sourcemaps');
  
 // External dependencies you do not want to rebundle while developing,
 // but include in your application deployment
@@ -84,7 +85,7 @@ function bundleApp(isProduction) {
   	}
  
   	appBundler
-  		// transform ES6 and JSX to ES5 with babelify
+  		// transform ES6 and JSX to ES5 with babelify		
 	  	.transform("babelify", {
 			  presets: ["es2015", "react"]
 			})
@@ -92,6 +93,8 @@ function bundleApp(isProduction) {
 	    .on('error',gutil.log)
 	    .pipe(source('bundle.js'))
 		.pipe(buffer())
-		.pipe(uglify({preserveComments: "license"}))
+		// .pipe(sourceMaps.init())
+		// .pipe(uglify({preserveComments: "license"}))
+		// .pipe(sourceMaps.write())
 	    .pipe(gulp.dest('./assets/lib/'));
 }

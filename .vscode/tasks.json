@@ -11,7 +11,7 @@
 		{
 			"taskName": "scripts",
 			"isBuildCommand": true,
-			"showOutput": "always"
+			"showOutput": "silent"
 		}
 	]
 }

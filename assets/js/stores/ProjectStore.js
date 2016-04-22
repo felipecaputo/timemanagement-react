@@ -3,11 +3,15 @@
 import * as FluxUtils from 'flux/utils';
 import TMDispatcher from '../dispatcher/TMDispatcher';
 import ProjectCons from '../constants/ProjectConstants';
+import ProjectUtil from '../util/ProjectUtils';
 
 class ProjectStore extends FluxUtils.Store {
     constructor(dispatcher) {
         super(dispatcher);
-        this.projectsList = []
+        ProjectUtil.getCurrentProjects()
+            .then(projectList => {
+                this.projectsList = projectList;
+            });
     }
     __addProject(project){
         this.projectsList.push(project);
@@ -28,6 +32,9 @@ class ProjectStore extends FluxUtils.Store {
             default:
                 break;
         }
+    }
+    getProjectList(){
+        return this.projectsList;
     }
 }
 

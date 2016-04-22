@@ -21,7 +21,7 @@ export default class ActivityList extends React.Component {
         this.listenerToken = ActivityStore.addListener(this.__handleChange);
     }
     componentWillUnmount() {
-        ActivityStore.remove(this.listenerToken);
+        this.listenerToken.remove();
     }
     render(){
         var activityList = this.state.activityList || [];

@@ -20,7 +20,7 @@ class ProjectUtils {
      */
     addProject(project){
         return new Promise( (resolve, reject) => {
-            if (!project.id || (project.id > 0)) {
+            if (project.id && (project.id > 0)) {
                 reject('Cannot add a project that already has an Id');
                 return;
             }
@@ -35,6 +35,6 @@ class ProjectUtils {
     }
 }
 
-let p = ProjectUtils();
+let p = new ProjectUtils();
 
 export default p;
