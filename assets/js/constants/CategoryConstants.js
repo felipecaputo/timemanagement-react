@@ -8,7 +8,8 @@ let c = {
     CATEGORY_DELETING: '',
     CATEGORY_DELETED: '',
     CATEGORY_UPDATING: '',
-    CATEGORY_UPDATED: ''
+    CATEGORY_UPDATED: '',
+    CATEGORY_LIST_UPDATED: ''
 };
 
 c = KeyMirror(c);

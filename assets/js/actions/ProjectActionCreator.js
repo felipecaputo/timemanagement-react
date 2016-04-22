@@ -1,18 +1,17 @@
 'use strict';
 
-import ProjectCons from '../constants/ProjectConstants';
+import Cons from '../constants/ProjectConstants';
 import TMDispatcher from '../dispatcher/TMDispatcher';
 import ProjectUtil from '../util/ProjectUtils';
 
 class ProjectActionCreator {
     addProject(project){
         ProjectUtil.addProject(project)
-            .then( proj => {
-                TMDispatcher.dispatch({
-                    type: ProjectCons.PROJECT_ADD,
-                    project: project
-                });
-            })
+            .then( proj => TMDispatcher.dispatch(Cons.PROJECT_ADD, project));
+    }
+    loadCurrentProjects() {
+        ProjectUtil.getCurrentProjects()
+            .then( projList => TMDispatcher.handleClientAction(Cons.PROJECT_LIST_UPDATED, projList));
     }
     deleteProject(projectId){
         
