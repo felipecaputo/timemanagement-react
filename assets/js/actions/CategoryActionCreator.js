@@ -21,6 +21,11 @@ class CategoryActionCreator {
      */
     loadCategories(){
         CategoryUtils.getCurrentCategories()
-            .then( list => { Dispatcher.handleClientAction(Cons.CATEGORY_LIST_UPDATED, list) });
+            .then( list => { Dispatcher.handleClientAction(Cons.CATEGORY_LIST_UPDATED, list) })
+            .catch( err => {} );
     }
 }
+
+let c = new CategoryActionCreator();
+
+export default c;

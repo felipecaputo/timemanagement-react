@@ -32,3 +32,6 @@ class CategoryStore extends Utils.Store {
         return this.catList;
     }
 }
+
+let c = new CategoryStore()
+export default c;
