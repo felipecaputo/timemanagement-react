@@ -6,6 +6,7 @@ import AppTile from './AppTitle';
 import AppToolBar from './AppToolBar';
 import ActivityAction from '../actions/ActivityActionCreator';
 import CreateActivityModal from './activity/CreateActivityModal';
+import ActivityStore from '../stores/ActivityStore';
 
 export default class TimeManagementApp extends React.Component {
     constructor(){
@@ -14,9 +15,11 @@ export default class TimeManagementApp extends React.Component {
         this.__handleCreateNewActivity= this.__handleCreateNewActivity.bind(this);
         this.__handleCancelActivity = this.__handleCancelActivity.bind(this);
         this.__handleSaveActivity = this.__handleSaveActivity.bind(this);
+        this.__handleChange = this.__handleChange.bind(this);
         
         this.state = {
-            showingCreate: false
+            showingCreate: false,
+            activities: ActivityStore.getActivityList()
         };
     }
     __handleCreateNewActivity() {
@@ -35,6 +38,17 @@ export default class TimeManagementApp extends React.Component {
             showingCreate: false
         })
     }
+    __handleChange(){
+        this.setState({
+            activities: ActivityStore.getActivityList()
+        })
+    }
+    componentDidMount(){
+        this.activityToken = ActivityStore.addListener(this.__handleChange);
+    }
+    componentWillUnmount(){
+        this.activityToken();
+    }
     render(){
         var createModal;
         if(this.state.showingCreate) {
@@ -48,7 +62,9 @@ export default class TimeManagementApp extends React.Component {
                 <hl/>
                 <div className='container'>
                     {createModal}
-                    <ActivityList />
+                    <ActivityList
+                        activities={this.state.activities} 
+                    />
                 </div>
             </div>
         );
