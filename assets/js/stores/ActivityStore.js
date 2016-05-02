@@ -34,7 +34,7 @@ class ActivityStore extends FluxUtils.Store {
                 this.startActivity(payload.data);
                 break;
             case ActivityConsts.ACTIVITY_STOPED:
-                this.stopActivity(payload.activityId);
+                this.stopActivity(payload.data);
                 break;
             case ActivityConsts.ACTIVITY_CREATE_NEW:
                 this.__fireCreateNew();
@@ -44,6 +44,9 @@ class ActivityStore extends FluxUtils.Store {
                 break;
             case ActivityConsts.ACTIVITY_CREATED:
                 this.__addActivity(payload.activity);
+                break;
+            case ActivityConsts.ACTIVITY_UPDATED:
+                this.updateActivity(payload.data);
                 break;
         }
     }
@@ -68,6 +71,8 @@ class ActivityStore extends FluxUtils.Store {
         return this.__activityList;
     }
     updateActivity(activity){
+        
+        console.log('updated', activity.id);
         let l=this.__activityList.length;
         for (let i = 0; i < l; i++) {
             if (this.__activityList[i].id == activity.id) {
@@ -85,7 +90,10 @@ class ActivityStore extends FluxUtils.Store {
         this.updateActivity(activity);
         this.__emitChange();
     }
-    stopActivity(activityId){
+    stopActivity(activity){
+        
+        console.log('stopped', activity.id);
+        this.updateActivity(activity);
         this.__emitChange()
     }
 }

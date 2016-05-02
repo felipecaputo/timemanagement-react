@@ -38,7 +38,8 @@ class ActivityUtils {
                 activity.status = Cons.ACTIVITY_STATUS.ACTIVE;
             
             if (!activity.running) activity.running = false;
-            
+            activity.totalDuration = 0;
+                        
             DB.activities.add(activity)
                 .then( id => {
                     activity.id = id;
@@ -54,7 +55,6 @@ class ActivityUtils {
      * @returns {Promise<undefined>}
      */
     updateActivity(activity){
-        console.log(activity.id, JSON.stringify(activity));
         return DB.activities.update(activity.id, activity);
     }
     /**
@@ -65,7 +65,7 @@ class ActivityUtils {
      */
     stopActivity(activity){
         return new Promise ( ( resolve, reject ) => {
-            console.log('stoping activity', JSON.stringify(activity));
+            console.log('stoping activity', activity.id);
             activity.lastEndTime = new Date().getTime();
             if (!activity.periods) activity.periods = [];
             
@@ -75,7 +75,10 @@ class ActivityUtils {
                 activity.totalDuration += (p.end - p.start);
             });
             this.updateActivity(activity)
-                .then(() => resolve(activity))
+                .then(() => {
+                    ActivityActions.updateActivity(activity); //TODO: Improve here, maybe we should've called stop from actions instead of utils
+                    resolve(activity);
+                })
                 .catch(reject);            
         })
     }

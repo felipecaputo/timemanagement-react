@@ -14,6 +14,7 @@ class ActivityActions {
         
     }
     stopActivity(activity) {
+        console.log('stopping', activity.id);
         ActivityUtils.stopActivity(activity)
             .then(act => Dispatcher.handleClientAction(ActivityConstants.ACTIVITY_STOPED,act));        
     }
@@ -29,10 +30,7 @@ class ActivityActions {
      * @param {Object} activity An activity object
      */
     updateActivity(activity) {
-        Dispatcher.dispatch({
-            type: ActivityConstants.ACTIVITY_UPDATED,
-            activity: activity
-        })
+        Dispatcher.handleRequestAction( ActivityConstants.ACTIVITY_UPDATED, activity );
     }
     /**
      * Notify all listeners that the activity list was changed

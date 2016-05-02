@@ -8,7 +8,7 @@ import { humanizedDuration } from '../../util/TimeUtils';
 export default class ActivityControls extends React.Component {
     constructor(props){
         super(props);
-        this.state = { running: props.activity.lastEndTime === Cons.INVALID_ENDTIME, currentDuration: 0 };
+        this.state = { currentDuration: props.activity.totalDuration };
         
         this._handleStart = this._handleStart.bind(this);
         this._handleStop = this._handleStop.bind(this);
@@ -16,28 +16,48 @@ export default class ActivityControls extends React.Component {
     }
     _handleStart(){
         ActionCreator.startActivity(this.props.activity);
-        this.setState({
-            running: true
-        })
-        this.intervalId = setInterval(this._tick, 1000);
+        
     }
     _handleStop() {
-        clearInterval(this.intervalId);
+        if(this.intervalId){
+            clearInterval(this.intervalId);
+            this.intervalId = undefined;
+        }
+        
         ActionCreator.stopActivity(this.props.activity);
-        this.setState({
-            running: false
-        });
     }
     _tick() {
+        let act = this.props.activity;
         this.setState({
-            currentDuration: this.state.currentDuration + 1000
+            currentDuration: act.totalDuration + (new Date().getTime() - act.lastStartTime)
         });
+    }
+    __activityIsRunning(){
+        return this.props.activity.lastEndTime === Cons.INVALID_ENDTIME;
+    }
+    componentDidUpdate(prevProps,prevState){
+        if ((this.__activityIsRunning())  &&  (!this.intervalId)) {
+            this.intervalId = setInterval(this._tick, 200);
+        }
+        if(((!this.__activityIsRunning())  &&  (this.intervalId))){
+            clearInterval(this.intervalId);
+            this.intervalId = undefined;            
+        }
+    }
+    componentDidMount(){
+        this.intervalId = this.__activityIsRunning() ? setInterval(this._tick, 200) : undefined;
+    }
+    componentWillUnmount(){
+        if(this.intervalId) { 
+            clearInterval(this.intervalId);
+            this.intervalId = undefined;
+        }
     }
     render() {
         let activity = this.props.activity;
         let button;
         
-        if(!this.state.running){
+        if(!this.__activityIsRunning()){
             button = (
                 <button className="btn btn-small btn-success" onClick={this._handleStart}>
                     <span className="glyphicon glyphicon-play"></span>
@@ -54,7 +74,7 @@ export default class ActivityControls extends React.Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-md-4">{ humanizedDuration(this.props.activity.totalDuration + this.state.currentDuration) }</div>
+                    <div className="col-md-4">{ humanizedDuration(this.state.currentDuration) }</div>
                     <div className="col-md-4">{button}</div>
                 </div>
             </div>
