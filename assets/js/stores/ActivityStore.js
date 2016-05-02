@@ -31,7 +31,7 @@ class ActivityStore extends FluxUtils.Store {
     __onDispatch(payload){
         switch (payload.type) {
             case ActivityConsts.ACTIVITY_STARTED:
-                this.startActivity(payload.activityId);
+                this.startActivity(payload.data);
                 break;
             case ActivityConsts.ACTIVITY_STOPED:
                 this.stopActivity(payload.activityId);
@@ -67,13 +67,23 @@ class ActivityStore extends FluxUtils.Store {
     getActivityList() {
         return this.__activityList;
     }
+    updateActivity(activity){
+        let l=this.__activityList.length;
+        for (let i = 0; i < l; i++) {
+            if (this.__activityList[i].id == activity.id) {
+                this.__activityList[i] = activity;
+                break;
+            }             
+        }
+    }
     /**
      * Starts the activity with the informed id
      * 
      * @param {number} activityId The id of the activity that will be started
      */
-    startActivity(activityId) {
-        this.__emitChange()
+    startActivity(activity) {
+        this.updateActivity(activity);
+        this.__emitChange();
     }
     stopActivity(activityId){
         this.__emitChange()

@@ -10,7 +10,7 @@ export function humanizedDuration(dur) {
     let duration = []
     
     let seconds, minutes, hours;
-    
+    dur /= 1000;
     hours = Math.floor(dur / 3600);
     minutes = Math.floor((dur - (hours * 3600)) / 60);
     seconds = Math.floor((dur - minutes * 60 - hours * 3600));

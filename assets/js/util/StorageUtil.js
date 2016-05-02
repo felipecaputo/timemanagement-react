@@ -2,11 +2,7 @@
 
 import Dexie from 'dexie';
 
-Dexie.delete("ActivitiesDatabase");
-
 let db = new Dexie("ActivitiesDatabase");
-
-db = new Dexie("ActivitiesDatabase");
 
 db.version(3).stores({
     activities: "++id,title,categoryId,projectId,totalDuration,isRunning,status,lastStartTime,lastEndTime,periods",

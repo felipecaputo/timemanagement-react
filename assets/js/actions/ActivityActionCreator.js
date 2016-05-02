@@ -13,11 +13,9 @@ class ActivityActions {
             .then(act => Dispatcher.handleClientAction(ActivityConstants.ACTIVITY_STARTED,act));
         
     }
-    stopActivity(activityId) {
-        Dispatcher.dispatch({
-            type: ActivityConstants.ACTIVITY_STOPED,
-            id: activityId
-        });        
+    stopActivity(activity) {
+        ActivityUtils.stopActivity(activity)
+            .then(act => Dispatcher.handleClientAction(ActivityConstants.ACTIVITY_STOPED,act));        
     }
     deleteActivity(activityId) {
         Dispatcher.dispatch({
