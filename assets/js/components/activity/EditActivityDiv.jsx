@@ -1,13 +1,9 @@
-'use strict';
-
-import * as React from 'react';import Modal from 'react-bootstrap/lib/Modal';
-import Input from 'react-bootstrap/lib/Input';
-import Button from 'react-bootstrap/lib/Button';
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
+import * as React from 'react';
+import {Input,Button,ButtonToolbar} from 'react-bootstrap';
 import ProjectSelect from '../project/ProjectSelect';
 import CategorySelect from '../category/CategorySelect';
 
-export default class CreateActivityModal extends React.Component {
+export default class EditActivityDiv extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -69,11 +65,9 @@ export default class CreateActivityModal extends React.Component {
         let categoryButton = <Button><span className="glyphicon glyphicon-plus"></span></Button>;
         
         return (
-            <Modal show={ this.props.show } className="activity-modal">
-                <Modal.Header>
-                    <Modal.Title> New Activity - { this.state.activity.title }</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>              
+            <div className="container">
+                <h2> New Activity - { this.state.activity.title }</h2>
+                <div>              
                     <Input 
                         type="text" id="maTitle" label="Title" placeholder="Activity title" 
                         value={ this.state.activity.title } onChange={ this.__handleChange } required/>
@@ -82,7 +76,7 @@ export default class CreateActivityModal extends React.Component {
                         value={this.state.activity.projectId} 
                         onChange={this.__handleChange} />
                     <CategorySelect                        
-                        id="maCategory"                         
+                        id="maCategory"
                         value={this.state.activity.categoryId} 
                         onChange={this.__handleChange} 
                         categories={this.props.categories}/>
@@ -94,26 +88,18 @@ export default class CreateActivityModal extends React.Component {
                         value={ this.state.activity.description } 
                         onChange={ this.__handleChange } 
                         required/>
-                </Modal.Body>
-                <Modal.Footer>
-                    <ButtonToolbar>
-                        <Button 
-                            bsStyle="primary"
-                            onClick={this.__handleSave} 
-                            disabled={this.state.processing}>Save</Button>
-                        <Button 
-                            bsStyle="danger" 
-                            onClick={this.__handleCancel} 
-                            disabled={this.state.processing}>Cancel</Button>
-                    </ButtonToolbar>
-                </Modal.Footer>
-            </Modal>
+                </div>
+                <ButtonToolbar>
+                    <Button 
+                        bsStyle="primary"
+                        onClick={this.__handleSave} 
+                        disabled={this.state.processing}>Save</Button>
+                    <Button 
+                        bsStyle="danger" 
+                        onClick={this.__handleCancel} 
+                        disabled={this.state.processing}>Cancel</Button>
+                </ButtonToolbar>
+            </div>
         )
     }
-}
-
-CreateActivityModal.propTypes = {
-    show: React.PropTypes.bool.isRequired,
-    onSave: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func.isRequired
 }

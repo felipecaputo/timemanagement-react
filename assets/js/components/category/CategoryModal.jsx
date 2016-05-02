@@ -14,16 +14,17 @@ export default class CategoryModal extends RegistratonModal {
     __handleChange(e){
         let s = this.state;
         switch (e.target.id) {
-            case 'catTile':
+            case 'catTitle':
                 s.title = e.target.value;
                 break;
         
             default:
                 throw new Error(`${e.target.id} is not a valid target for handle change`);
         }
+        this.setState(s);
     }
     __handleSave(){
-        let category = { title: this.state.title };
+        let category = { category: this.state.title };
         Actions.createCategory(category);
         this.props.onSave();
     }
@@ -31,12 +32,19 @@ export default class CategoryModal extends RegistratonModal {
         this.props.onCancel();
     }
     __getTitle(){
-        return 'New Category';
+        return `New Category - ${this.state.title}`;
     }
     __getBody(){
         return (
-            <Input id="catTitle" onChange={(()=> this.__handleChange())} placeholder="Title"
-                label="Title" value={this.state.title}/>
+            <div>
+                <Input 
+                    id="catTitle"
+                    type="text" 
+                    onChange={this.__handleChange} 
+                    placeholder="Title"
+                    label="Title" 
+                    value={this.state.title}/>
+           </div>
         )
     }
 }

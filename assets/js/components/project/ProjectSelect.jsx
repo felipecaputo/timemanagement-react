@@ -47,8 +47,11 @@ export default class ProjectSelect extends React.Component {
     render() {
         let projModal;
         if (this.state.showProjectModal) {
-            projModal = <ProjectModal onAfterSave={this.__handleModalSaved}
-                onAfterCancel={this.__handleModalCancel} show={this.state.showProjectModal}></ProjectModal>
+            projModal = (<ProjectModal 
+                onAfterSave={this.__handleModalSaved}
+                onAfterCancel={this.__handleModalCancel} 
+                show={this.state.showProjectModal}>
+            </ProjectModal>);
         }
         
         let projectButton = <Button><span className="glyphicon glyphicon-plus" onClick={this.__showProjectModal}></span></Button>;    
@@ -56,8 +59,14 @@ export default class ProjectSelect extends React.Component {
             
             <div>
                 {projModal}
-                <Input id={this.props.id} type="select" label="Project" placeholder="Project" 
-                    buttonAfter={projectButton} onChange={ this.props.onChange } value={ this.props.value }>
+                <Input 
+                    id={this.props.id} 
+                    type="select" label="Project" 
+                    placeholder="Project" 
+                    buttonAfter={projectButton} 
+                    onChange={ this.props.onChange } 
+                    value={ this.props.value }>
+                    
                     {this.__getProjectsOptions()}
                 </Input>
             </div>

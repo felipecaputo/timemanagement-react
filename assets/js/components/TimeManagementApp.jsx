@@ -6,7 +6,9 @@ import AppTile from './AppTitle';
 import AppToolBar from './AppToolBar';
 import ActivityAction from '../actions/ActivityActionCreator';
 import CreateActivityModal from './activity/CreateActivityModal';
+import EditActivityDiv from './activity/EditActivityDiv';
 import ActivityStore from '../stores/ActivityStore';
+import CategoryStore from '../stores/CategoryStore';
 
 export default class TimeManagementApp extends React.Component {
     constructor(){
@@ -19,7 +21,8 @@ export default class TimeManagementApp extends React.Component {
         
         this.state = {
             showingCreate: false,
-            activities: ActivityStore.getActivityList()
+            activities: ActivityStore.getActivityList(),
+            categories: CategoryStore.getCategoryList()
         };
     }
     __handleCreateNewActivity() {
@@ -40,19 +43,37 @@ export default class TimeManagementApp extends React.Component {
     }
     __handleChange(){
         this.setState({
-            activities: ActivityStore.getActivityList()
+            activities: ActivityStore.getActivityList(),
+            categories: CategoryStore.getCategoryList()
         })
     }
     componentDidMount(){
         this.activityToken = ActivityStore.addListener(this.__handleChange);
+        this.categoryToken = CategoryStore.addListener(this.__handleChange);
     }
     componentWillUnmount(){
         this.activityToken();
+        this.categoryToken();
     }
     render(){
         var createModal;
         if(this.state.showingCreate) {
-            createModal = <CreateActivityModal show={ this.state.showingCreate } onSave={this.__handleSaveActivity} onCancel={this.__handleCancelActivity}/>;
+            // createModal = <CreateActivityModal
+            //             activities={this.state.activities}
+            //             categories={this.state.categories}
+            //     show={ this.state.showingCreate } 
+            //     onSave={this.__handleSaveActivity} 
+            //     onCancel={this.__handleCancelActivity}
+            //     enforceFocus={false}
+            //     />;
+            
+createModal = <EditActivityDiv
+                        activities={this.state.activities}
+                        categories={this.state.categories}
+                show={ this.state.showingCreate } 
+                onSave={this.__handleSaveActivity} 
+                onCancel={this.__handleCancelActivity}
+                />;            
         }
          
         return (
@@ -63,7 +84,8 @@ export default class TimeManagementApp extends React.Component {
                 <div className='container'>
                     {createModal}
                     <ActivityList
-                        activities={this.state.activities} 
+                        activities={this.state.activities}
+                        categories={this.state.categories} 
                     />
                 </div>
             </div>

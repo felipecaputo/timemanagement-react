@@ -1,6 +1,7 @@
 'use strict';
 
 import * as React from 'react';
+import {Modal, ButtonToolbar, Button} from 'react-bootstrap';
 
 export default class RegistrationModal extends React.Component {
     constructor(props){
@@ -8,10 +9,10 @@ export default class RegistrationModal extends React.Component {
         this.__handleCancel = this.__handleCancel.bind(this);
         this.__handleSave = this.__handleSave.bind(this);
     }
-    __getBody(){ throw new Error('Body not implemented')  }
-    __getTitle(){throw new Error('Title not implemented')}
-    __handleSave(){throw new Error('handleSave not implemented')}
-    __handleCancel(){throw new Error('handleCancel not implemented')}
+    // __getBody(){ throw new Error('Body not implemented')  }
+    // __getTitle(){throw new Error('Title not implemented')}
+    // __handleSave(){throw new Error('handleSave not implemented')}
+    // __handleCancel(){throw new Error('handleCancel not implemented')}
     render() {
         return (
             <form>
