@@ -13,7 +13,7 @@ export default class ActivityControls extends React.Component {
         this._tick = this._tick.bind(this);
     }
     _handleStart(){
-        ActionCreator.startActivity(this.props.activity.id);
+        ActionCreator.startActivity(this.props.activity);
         this.setState({
             running: true
         })

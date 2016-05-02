@@ -11,5 +11,6 @@ export default {
         ACTIVE: 'active',
         FINISHED: 'finished',
         DELETED: 'deleted'
-    }
+    },
+    INVALID_ENDTIME: -1
 }

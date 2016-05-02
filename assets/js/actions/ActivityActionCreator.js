@@ -4,15 +4,14 @@ import Dispatcher from '../dispatcher/TMDispatcher';
 
 class ActivityActions {
     /**
-     * Starts the {Activity} identified by @activityId
+     * Starts the given {Activity}
      * 
-     * @param {Number} activityId The id of the activity to be started
+     * @param {Object} activity The activity to be started
      */
-    startActivity(activityId) {        
-        Dispatcher.dispatch({
-            type: ActivityConstants.ACTIVITY_STARTED,
-            id: activityId
-        });
+    startActivity(activity) {
+        ActivityUtils.startActivity(activity)
+            .then(act => Dispatcher.handleClientAction(ActivityConstants.ACTIVITY_STARTED,act));
+        
     }
     stopActivity(activityId) {
         Dispatcher.dispatch({
@@ -26,6 +25,11 @@ class ActivityActions {
             id: activityId
         });
     }
+    /**
+     * Notify all listeners that the Activity has been updated
+     * 
+     * @param {Object} activity An activity object
+     */
     updateActivity(activity) {
         Dispatcher.dispatch({
             type: ActivityConstants.ACTIVITY_UPDATED,
