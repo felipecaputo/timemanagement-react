@@ -32,11 +32,13 @@ class ActivityActions {
             activity: activity
         })
     }
+    /**
+     * Notify all listeners that the activity list was changed
+     * 
+     * @param {Object[]} activityList A list of Activities
+     */
     updateActivityList(activityList) {
-        Dispatcher.dispatch({
-            type: ActivityConstants.ACTIVITY_LIST_UPDATED,
-            activityList: activityList
-        });
+        Dispatcher.handleClientAction(ActivityConstants.ACTIVITY_LIST_UPDATED, activityList);
     }
     createActivity(activity) {
         ActivityUtils.addNewActivity(activity)
@@ -47,13 +49,14 @@ class ActivityActions {
                 })
             })
     }
+    /**
+     * Load all currecnt active activities and, when done,  fires dispatcher notifying with the
+     * new activity list
+     */
     getCurrentActivities() {
         ActivityUtils.getCurrentActivities()
             .then(activityList => {
-                Dispatcher.dispatch({
-                    type: ActivityConstants.ACTIVITY_LIST_UPDATED,
-                    activityList: activityList
-                });
+                Dispatcher.handleClientAction(ActivityConstants.ACTIVITY_LIST_UPDATED, activityList);
             })
     }
 }

@@ -9,6 +9,7 @@ import CreateActivityModal from './activity/CreateActivityModal';
 import EditActivityDiv from './activity/EditActivityDiv';
 import ActivityStore from '../stores/ActivityStore';
 import CategoryStore from '../stores/CategoryStore';
+import ProjectStore from '../stores/ProjectStore';
 
 export default class TimeManagementApp extends React.Component {
     constructor(){
@@ -22,7 +23,8 @@ export default class TimeManagementApp extends React.Component {
         this.state = {
             showingCreate: false,
             activities: ActivityStore.getActivityList(),
-            categories: CategoryStore.getCategoryList()
+            categories: CategoryStore.getCategoryList(),
+            projects: ProjectStore.getProjectList()
         };
     }
     __handleCreateNewActivity() {
@@ -44,36 +46,28 @@ export default class TimeManagementApp extends React.Component {
     __handleChange(){
         this.setState({
             activities: ActivityStore.getActivityList(),
-            categories: CategoryStore.getCategoryList()
+            categories: CategoryStore.getCategoryList(),
+            projects: ProjectStore.getProjectList()
         })
     }
     componentDidMount(){
         this.activityToken = ActivityStore.addListener(this.__handleChange);
         this.categoryToken = CategoryStore.addListener(this.__handleChange);
+        this.projectToken = ProjectStore.addListener(this.__handleChange);
     }
     componentWillUnmount(){
         this.activityToken();
         this.categoryToken();
+        this.projectToken();
     }
     render(){
-        var createModal;
-        if(this.state.showingCreate) {
-            // createModal = <CreateActivityModal
-            //             activities={this.state.activities}
-            //             categories={this.state.categories}
-            //     show={ this.state.showingCreate } 
-            //     onSave={this.__handleSaveActivity} 
-            //     onCancel={this.__handleCancelActivity}
-            //     enforceFocus={false}
-            //     />;
-            
-createModal = <EditActivityDiv
-                        activities={this.state.activities}
-                        categories={this.state.categories}
+        var activityDiv;
+        if(this.state.showingCreate) {            
+            activityDiv = <EditActivityDiv  {...this.state}
                 show={ this.state.showingCreate } 
                 onSave={this.__handleSaveActivity} 
                 onCancel={this.__handleCancelActivity}
-                />;            
+            />;            
         }
          
         return (
@@ -82,10 +76,9 @@ createModal = <EditActivityDiv
                 <AppToolBar onCreateNewActivity={ this.__handleCreateNewActivity }/>
                 <hl/>
                 <div className='container'>
-                    {createModal}
+                    {activityDiv}
                     <ActivityList
-                        activities={this.state.activities}
-                        categories={this.state.categories} 
+                        activities={this.state.activities} 
                     />
                 </div>
             </div>

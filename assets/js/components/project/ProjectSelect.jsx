@@ -1,9 +1,7 @@
 'use strict';
 
-import * as React from 'react';import Modal from 'react-bootstrap/lib/Modal';
-import Input from 'react-bootstrap/lib/Input';
-import Button from 'react-bootstrap/lib/Button';
-import ProjectStore from '../../stores/ProjectStore';
+import * as React from 'react';
+import {Modal,Input,Button} from 'react-bootstrap';
 import ProjectModal from './ProjectModal';
 
 export default class ProjectSelect extends React.Component {
@@ -11,50 +9,21 @@ export default class ProjectSelect extends React.Component {
         super(props);
         this.state = {
             showProjectModal: false,
-            value: undefined,
-            projectList: ProjectStore.getProjectList()
+            value: undefined
         };
-        this.__handleModalCancel = this.__handleModalCancel.bind(this);
-        this.__handleModalSaved = this.__handleModalSaved.bind(this);
-        this.__showProjectModal = this.__showProjectModal.bind(this);
-        this.__getProjectsOptions = this.__getProjectsOptions.bind(this);
-        this.__updateProjList = this.__updateProjList.bind(this);
     }
-    componentDidMount(){
-        this.projReg = ProjectStore.addListener(this.__updateProjList);
-    }
-    componentWillUnmount() {
-        this.projReg.remove();
-    }
-    __handleModalCancel(){
-        this.setState({ showProjectModal: false });
-    }
-    __handleModalSaved(){
-        this.setState({ showProjectModal: false });
-    }
-    __showProjectModal(){ this.setState({ showProjectModal: true })
-    }
-    __updateProjList(){
-        this.setState({ projectList: ProjectStore.getProjectList() });
-    }
-    __getProjectsOptions(){
-        let options = [];
-         
-        this.state.projectList.forEach( p => options.push(<option value={p.id} key={p.id}>{p.title}</option>) );
-        
-        return options
-    }    
+    __toggleModal(visible){ this.setState({ showProjectModal: visible }) } 
     render() {
         let projModal;
         if (this.state.showProjectModal) {
             projModal = (<ProjectModal 
-                onAfterSave={this.__handleModalSaved}
-                onAfterCancel={this.__handleModalCancel} 
+                onAfterSave={()=>this.__toggleModal(false)}
+                onAfterCancel={()=>this.__toggleModal(false)} 
                 show={this.state.showProjectModal}>
             </ProjectModal>);
         }
         
-        let projectButton = <Button><span className="glyphicon glyphicon-plus" onClick={this.__showProjectModal}></span></Button>;    
+        let projectButton = <Button><span className="glyphicon glyphicon-plus" onClick={()=>this.__toggleModal(true)}></span></Button>;    
         return (
             
             <div>
@@ -67,7 +36,7 @@ export default class ProjectSelect extends React.Component {
                     onChange={ this.props.onChange } 
                     value={ this.props.value }>
                     
-                    {this.__getProjectsOptions()}
+                    {this.props.projects.map( p => <option value={p.id} key={p.id}>{p.title}</option> )}
                 </Input>
             </div>
         );
@@ -77,5 +46,6 @@ export default class ProjectSelect extends React.Component {
 ProjectSelect.propTypes = {
     id: React.PropTypes.string.isRequired,
     value: React.PropTypes.any,
-    onChange: React.PropTypes.func.isRequired
+    onChange: React.PropTypes.func.isRequired,
+    projects: React.PropTypes.array.isRequired
 }

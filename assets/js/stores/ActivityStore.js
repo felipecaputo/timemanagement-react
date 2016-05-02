@@ -21,6 +21,7 @@ class ActivityStore extends FluxUtils.Store {
     constructor(dispatcher) {
         super(dispatcher);  
         this.__activityList = [];
+        ActivityActions.getCurrentActivities();
     }
     /**
      * Event that receives fired actions
@@ -39,7 +40,7 @@ class ActivityStore extends FluxUtils.Store {
                 this.__fireCreateNew();
                 break;
             case ActivityConsts.ACTIVITY_LIST_UPDATED:
-                this.__setActivityList(payload.activityList);
+                this.__setActivityList(payload.data);
                 break;
             case ActivityConsts.ACTIVITY_CREATED:
                 this.__addActivity(payload.activity);

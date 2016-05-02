@@ -74,7 +74,8 @@ export default class EditActivityDiv extends React.Component {
                     <ProjectSelect 
                         id="maProject" 
                         value={this.state.activity.projectId} 
-                        onChange={this.__handleChange} />
+                        onChange={this.__handleChange} 
+                        projects={this.props.projects}/>
                     <CategorySelect                        
                         id="maCategory"
                         value={this.state.activity.categoryId} 

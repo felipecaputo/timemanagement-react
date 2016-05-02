@@ -15,10 +15,7 @@ class ActivityUtils {
         return new Promise( (resolve, reject) => {
             DB.activities.where('status').equals(ActivityConstants.ACTIVITY_STATUS.ACTIVE).toArray()
                 .then( activityList => {
-                    TMDispatcher.handleRequestAction({
-                        type: ActivityConstants.ACTIVITY_LIST_UPDATED,
-                        activityList: activityList
-                    });
+                    TMDispatcher.handleRequestAction(ActivityConstants.ACTIVITY_LIST_UPDATED,activityList);
                 })
                 .catch( error => reject(error));
         })

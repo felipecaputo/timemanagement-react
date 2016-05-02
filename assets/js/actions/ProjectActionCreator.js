@@ -7,7 +7,7 @@ import ProjectUtil from '../util/ProjectUtils';
 class ProjectActionCreator {
     addProject(project){
         ProjectUtil.addProject(project)
-            .then( proj => TMDispatcher.dispatch(Cons.PROJECT_ADD, project));
+            .then( proj => TMDispatcher.handleClientAction(Cons.PROJECT_ADD, project));
     }
     loadCurrentProjects() {
         ProjectUtil.getCurrentProjects()
