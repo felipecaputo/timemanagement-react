@@ -5,32 +5,12 @@ import ActionCreator from '../../actions/ActivityActionCreator';
 import Cons from '../../constants/ActivityConstants';
 import { humanizedDuration } from '../../util/TimeUtils';
 
-export default class ActivityControls extends React.Component {
-    constructor(props){
+export class ActivityChronometer extends React.Component {
+    constructor (props) {
         super(props);
         this.state = { currentDuration: props.activity.totalDuration };
         
-        this._handleStart = this._handleStart.bind(this);
-        this._handleStop = this._handleStop.bind(this);
         this._tick = this._tick.bind(this);
-    }
-    _handleStart(){
-        ActionCreator.startActivity(this.props.activity);
-        
-    }
-    _handleStop() {
-        if(this.intervalId){
-            clearInterval(this.intervalId);
-            this.intervalId = undefined;
-        }
-        
-        ActionCreator.stopActivity(this.props.activity);
-    }
-    _tick() {
-        let act = this.props.activity;
-        this.setState({
-            currentDuration: act.totalDuration + (new Date().getTime() - act.lastStartTime)
-        });
     }
     __activityIsRunning(){
         return this.props.activity.lastEndTime === Cons.INVALID_ENDTIME;
@@ -53,35 +33,63 @@ export default class ActivityControls extends React.Component {
             this.intervalId = undefined;
         }
     }
-    render() {
-        let activity = this.props.activity;
-        let button;
-        
-        if(!this.__activityIsRunning()){
-            button = (
-                <button className="btn btn-small btn-success" onClick={this._handleStart}>
-                    <span className="glyphicon glyphicon-play"></span>
-                </button>
-            )     
-        }  else {
-            button = (
-                <button className="btn btn-small btn-danger" onClick={this._handleStop}>
-                    <span className="glyphicon glyphicon-stop"></span>
-                </button>
-            )
-        }
-        
-        return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-4">{ humanizedDuration(this.state.currentDuration) }</div>
-                    <div className="col-md-4">{button}</div>
-                </div>
-            </div>
-        )
+    _tick() {
+        let act = this.props.activity;
+        this.setState({
+            currentDuration: act.totalDuration + (new Date().getTime() - act.lastStartTime)
+        });
+    }
+    render(){
+        return <span className='chronometer'>{ humanizedDuration(this.state.currentDuration) }</span>
     }
 }
 
-ActivityControls.propTypes = {
+ActivityChronometer.propTypes = {
+    activity: React.PropTypes.object.isRequired
+}
+
+export const ActivityStartStopButton = props => {
+    let button;
+    
+    if(props.activity.lastEndTime === Cons.INVALID_ENDTIME){
+        button = (
+            <button 
+                className="btn btn-small btn-danger" 
+                onClick={() => ActionCreator.stopActivity(props.activity)}
+            >
+                <span className="glyphicon glyphicon-stop"></span>
+            </button>
+        )
+    }  else {
+        button = (
+            <button 
+                className="btn btn-small btn-success" 
+                onClick={() => ActionCreator.startActivity(props.activity) }
+            >
+                <span className="glyphicon glyphicon-play"></span>
+            </button>
+        )     
+    }
+    
+    return button;    
+}
+
+ActivityStartStopButton.propTypes = {
+    activity: React.PropTypes.object.isRequired
+}
+
+export const ActivityFinishButton = props => {
+    return (
+        <button 
+            className="btn btn-small btn-primary" 
+            onClick={() => ActionCreator.finishActivity(props.activity) }
+            disabled={props.activity.status !== Cons.ACTIVITY_STATUS.ACTIVE}
+        >
+            <span className="glyphicon glyphicon-ok"></span>
+        </button>
+    )
+} 
+
+ActivityFinishButton.propTypes = {
     activity: React.PropTypes.object.isRequired
 }

@@ -125,6 +125,21 @@ class ActivityUtils {
                 .catch(rej);
         })
     }
+    /**
+     * Stops and set as finished the given activity
+     * 
+     * @param {Object} activity (description)
+     * @returns {Promise<Object>} the updated activity
+     */
+    finishActivity(activity){
+        return new Promise( (resolve, reject) => {
+            this.stopActivity(activity)
+            .then(act => {
+                act.status = Cons.ACTIVITY_STATUS.FINISHED;
+                this.updateActivity(act).then(() => resolve(act));
+            })
+        })
+    }
 }
 
 let activityUtils = new ActivityUtils();

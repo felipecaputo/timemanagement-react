@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ActivityControls from './ActivityControls';
+import * as ActivityControls from './ActivityControls';
 
 export default (props) => {
     var activity = props.activity;
@@ -19,7 +19,9 @@ export default (props) => {
             <div>
                 {activity.description}
             </div>
-            <ActivityControls activity= { activity }/>
+            <ActivityControls.ActivityChronometer activity= { activity }/>
+            <ActivityControls.ActivityStartStopButton activity= { activity }/>
+            <ActivityControls.ActivityFinishButton activity={activity} />
         </div>
     );
 }

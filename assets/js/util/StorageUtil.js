@@ -1,6 +1,7 @@
 "use strict";
 
 import Dexie from 'dexie';
+import {Activity} from './Classes';
 
 let db = new Dexie("ActivitiesDatabase");
 
@@ -24,5 +25,7 @@ db.version(1).stores({
     projects: "++id,groupId,projectName,projectDescription",
     categories: "++id,category"
 });
+
+db.activities.mapToClass(Activity);
 
 export default db;

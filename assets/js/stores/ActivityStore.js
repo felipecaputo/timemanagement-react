@@ -48,6 +48,9 @@ class ActivityStore extends FluxUtils.Store {
             case ActivityConsts.ACTIVITY_UPDATED:
                 this.updateActivity(payload.data);
                 break;
+            case ActivityConsts.ACTIVITY_DONE:
+                this.updateActivity(payload.data);
+                break;
         }
     }
     __addActivity(activity){
