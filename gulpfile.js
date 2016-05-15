@@ -1,100 +1,79 @@
 'use strict';
 
-/*
-*	Task Automation to make my life easier.
-*	Author: Jean-Pierre Sierens
-*	===========================================================================
-*/
- 
-// declarations, dependencies
-// ----------------------------------------------------------------------------
-var gulp = require('gulp');
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
-var gutil = require('gulp-util');
-var babelify = require('babelify');
-var uglify = require('gulp-uglify');
-var buffer = require('vinyl-buffer');
-var sourceMaps = require('gulp-sourcemaps');
- 
-// External dependencies you do not want to rebundle while developing,
-// but include in your application deployment
-var dependencies = [
-	'react',
-  	'react-dom',
-	'react-bootstrap',
-	'dexie',
-	'flux',
-	'object-assign'
-];
-// keep a count of the times a task refires
-var scriptsCount = 0;
- 
-// Gulp tasks
-// ----------------------------------------------------------------------------
-gulp.task('scripts', function () {
-    bundleApp(false);
-});
- 
-gulp.task('deploy', function (){
-	bundleApp(true);
-});
- 
-gulp.task('watch', function () {
-	gulp.watch(['./assets/js/**.js','./assets/js/**.jsx'], ['scripts']);
-});
- 
-// When running 'gulp' on the terminal this task will fire.
-// It will start watching for changes in every .js file.
-// If there's a change, the task 'scripts' defined above will fire.
-gulp.task('default', ['scripts','watch']);
- 
-// Private Functions
-// ----------------------------------------------------------------------------
-function bundleApp(isProduction) {
-	scriptsCount++;
-	// Browserify will bundle all our js files together in to one and will let
-	// us use modules in the front end.
-	var appBundler = browserify({
-    	entries: './assets/js/app.js',
-		extensions: ['.js','.json','.jsx'],
-    	debug: true
-  	})
- 
-	// If it's not for production, a separate vendors.js file will be created
-	// the first time gulp is run so that we don't have to rebundle things like
-	// react everytime there's a change in the js file
-  	if (!isProduction && scriptsCount === 1){
-  		// create vendors.js for dev environment.
-  		browserify({
-			require: dependencies,
-			debug: true
-		})
-			.bundle()
-			.on('error', gutil.log)
-			.pipe(source('vendors.js'))
-			.pipe(gulp.dest('./assets/lib/'));
-  	}
-  	if (!isProduction){
-  		// make the dependencies external so they dont get bundled by the 
-		// app bundler. Dependencies are already bundled in vendor.js for
-		// development environments.
-  		dependencies.forEach(function(dep){
-  			appBundler.external(dep);
-  		})
-  	}
- 
-  	appBundler
-  		// transform ES6 and JSX to ES5 with babelify		
-	  	.transform("babelify", {
-			  presets: ["es2015", "react"]
-			})
-	    .bundle()
-	    .on('error',gutil.log)
-	    .pipe(source('bundle.js'))
-		.pipe(buffer())
-		// .pipe(sourceMaps.init())
-		// .pipe(uglify({preserveComments: "license"}))
-		// .pipe(sourceMaps.write())
-	    .pipe(gulp.dest('./assets/lib/'));
+var gulp = require('gulp');  // Base gulp package
+var babelify = require('babelify'); // Used to convert ES6 & JSX to ES5
+var browserify = require('browserify'); // Providers "require" support, CommonJS
+var notify = require('gulp-notify'); // Provides notification to both the console and Growel
+var rename = require('gulp-rename'); // Rename sources
+var sourcemaps = require('gulp-sourcemaps'); // Provide external sourcemap files
+var livereload = require('gulp-livereload'); // Livereload support for the browser
+var gutil = require('gulp-util'); // Provides gulp utilities, including logging and beep
+var chalk = require('chalk'); // Allows for coloring for logging
+var source = require('vinyl-source-stream'); // Vinyl stream support
+var buffer = require('vinyl-buffer'); // Vinyl stream support
+var watchify = require('watchify'); // Watchify for source changes
+var merge = require('utils-merge'); // Object merge tool
+var duration = require('gulp-duration'); // Time aspects of your gulp process
+
+// Configuration for Gulp
+var config = {
+  js: {
+    src: './assets/js/app.js',
+    watch: './assets/js/**/*',
+    outputDir: './assets/lib/',
+    outputFile: 'bundle.js',
+  },
+};
+
+// Error reporting function
+function mapError(err) {
+  if (err.fileName) {
+    // Regular error
+    gutil.log(chalk.red(err.name)
+      + ': ' + chalk.yellow(err.fileName.replace(__dirname + '/src/js/', ''))
+      + ': ' + 'Line ' + chalk.magenta(err.lineNumber)
+      + ' & ' + 'Column ' + chalk.magenta(err.columnNumber || err.column)
+      + ': ' + chalk.blue(err.description));
+  } else {
+    // Browserify error..
+    gutil.log(chalk.red(err.name)
+      + ': '
+      + chalk.yellow(err.message));
+  }
 }
+
+// Completes the final file outputs
+function bundle(bundler) {
+  var bundleTimer = duration('Javascript bundle time');
+
+  bundler
+    .bundle()
+    .on('error', mapError) // Map error reporting
+    .pipe(source(config.js.src)) // Set source name
+    .pipe(buffer()) // Convert to gulp pipeline
+    .pipe(rename(config.js.outputFile)) // Rename the output file
+    .pipe(sourcemaps.init({loadMaps: true})) // Extract the inline sourcemaps
+    .pipe(sourcemaps.write('./map')) // Set folder for sourcemaps to output to
+    .pipe(gulp.dest(config.js.outputDir)) // Set the output folder
+    .pipe(notify({
+      message: 'Generated file: <%= file.relative %>',
+    })) // Output the file being created
+    .pipe(bundleTimer) // Output time timing of the file creation
+    .pipe(livereload()); // Reload the view in the browser
+}
+
+// Gulp task for build
+gulp.task('default', function() {
+  livereload.listen(); // Start livereload server
+  var args = merge(watchify.args, { debug: true, extensions: ['.js','.json','.jsx'] }); // Merge in default watchify args with browserify arguments
+
+  var bundler = browserify(config.js.src, args) // Browserify
+    .plugin(watchify, {ignoreWatch: ['**/node_modules/**', '**/bower_components/**']}) // Watchify to watch source file changes
+    .transform(babelify, {presets: ['es2015', 'react']}); // Babel tranforms
+
+  bundle(bundler); // Run the bundle the first time (required for Watchify to kick in)
+
+  bundler.on('update', function() {
+    bundle(bundler); // Re-run bundle on source updates
+  });
+});
