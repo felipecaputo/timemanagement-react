@@ -5,21 +5,23 @@ export default (props) => {
     var activity = props.activity;
     return (
         <div className="activity-card">
-            <h2>
+            <h3>
                 { activity.title }
-            </h2>
+            </h3>
             <div className="clearfix">
                 <div className='pull-left'>
-                    <b>{activity.category}</b>
+                    Category: <b>{activity.category}</b>
                 </div>
                 <div className="pull-right">
-                    <b>{activity.project}</b>
+                    Project: <b>{activity.project}</b>
                 </div>
             </div>
             <div>
                 {activity.description}
             </div>
-            <ActivityControls.ActivityChronometer activity= { activity }/>
+            <div>
+                <ActivityControls.ActivityChronometer activity= { activity }/>
+            </div>
             <ActivityControls.ActivityStartStopButton activity= { activity }/>
             <ActivityControls.ActivityFinishButton activity={activity} />
         </div>

@@ -35,8 +35,9 @@ export class ActivityChronometer extends React.Component {
     }
     _tick() {
         let act = this.props.activity;
+        let cur = this.__activityIsRunning() ? new Date().getTime() - act.lastStartTime : 0;
         this.setState({
-            currentDuration: act.totalDuration + (new Date().getTime() - act.lastStartTime)
+            currentDuration: act.totalDuration + cur
         });
     }
     render(){

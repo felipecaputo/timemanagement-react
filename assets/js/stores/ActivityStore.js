@@ -21,6 +21,7 @@ class ActivityStore extends FluxUtils.Store {
     constructor(dispatcher) {
         super(dispatcher);  
         this.__activityList = [];
+        this.__finishedActivityList = [];
         ActivityActions.getCurrentActivities();
     }
     /**
@@ -65,6 +66,62 @@ class ActivityStore extends FluxUtils.Store {
         this.showCreateModal = true
         this.__emitChange();
     }
+    __putToList(aList, activity){
+        return new Promise( (resolve, reject) => {
+            let l=aList.length;
+            for (let i = 0; i < l; i++) {
+                if (aList[i].id == activity.id) {
+                    aList[i] = activity;
+                    resolve();
+                    return;
+                }
+            }
+            aList.push(activity);
+            resolve();
+            return;            
+        })
+    }
+    /**
+     * (description)
+     * 
+     * @param {Array<Object>} aList (description)
+     * @param {Object} activity (description)
+     * @returns {Promise<Object>} A Promise that resolves without data, when operation finishs
+     */
+    __removeFromList(aList, activity){
+        return new Promise((resolve, reject) => {
+            let l= aList.length;
+            for (var i = 0; i < l; i++) {
+                if (aList[i].id == activity.id) {
+                    aList.splice(i,1);
+                    break;
+                }
+            }
+            resolve();
+        });
+    }
+    __updateCurrentActivityList(activity){
+        let args = [this.__activityList, activity];
+        if(activity.status === ActivityConsts.ACTIVITY_STATUS.ACTIVE){
+            console.log('Updated on active list', activity.id);
+            return this.__putToList(...args)
+        }
+        else{
+            console.log('Removed on active list', activity.id);
+            return this.__removeFromList(...args);
+        }
+    }
+    __updateFinishedActivityList(activity){
+        let args = [this.__finishedActivityList, activity];
+        if(activity.status === ActivityConsts.ACTIVITY_STATUS.FINISHED){
+            console.log('Updated on finished list', activity.id);
+            return this.__putToList(...args);
+        }
+        else {
+            console.log('Removed on finished list', activity.id);
+            return this.__removeFromList(...args);
+        }
+    }
     /**
      * Returns the internal activity list
      * 
@@ -74,15 +131,11 @@ class ActivityStore extends FluxUtils.Store {
         return this.__activityList;
     }
     updateActivity(activity){
-        
-        console.log('updated', activity.id);
-        let l=this.__activityList.length;
-        for (let i = 0; i < l; i++) {
-            if (this.__activityList[i].id == activity.id) {
-                this.__activityList[i] = activity;
-                break;
-            }             
-        }
+      console.log('updated', activity.id);
+      return Promise.all([
+          this.__updateCurrentActivityList(activity),
+          this.__updateFinishedActivityList(activity)
+      ]).then(this.__emitChange());
     }
     /**
      * Starts the activity with the informed id
@@ -91,13 +144,11 @@ class ActivityStore extends FluxUtils.Store {
      */
     startActivity(activity) {
         this.updateActivity(activity);
-        this.__emitChange();
     }
     stopActivity(activity){
         
         console.log('stopped', activity.id);
         this.updateActivity(activity);
-        this.__emitChange()
     }
 }
 
