@@ -8,9 +8,16 @@ const AppToolBar = (props) => {
     return (
         <div className='container'>
             <div id='toolbar-right'>
-                <Button bsStyle='primary' onClick={props.onCreateNewActivity}>
+                <Button bsStyle='success' onClick={props.onCreateNewActivity}>
                     <span className='glyphicon glyphicon-plus'></span>
                     New Activity
+                </Button>
+                <Button
+                    bsStyle='primary'
+                    active={props.showFinished}
+                    onClick={props.onToggleShowFinished}
+                >
+                    Show Finished
                 </Button>
             </div>
         </div>
@@ -18,7 +25,9 @@ const AppToolBar = (props) => {
 }
 
 AppToolBar.propTypes = {
-    onCreateNewActivity: React.PropTypes.func.isRequired
+    onCreateNewActivity: React.PropTypes.func.isRequired,
+    onToggleShowFinished: React.PropTypes.func.isRequired,
+    showFinished: React.PropTypes.bool.isRequired
 }
 
 export default AppToolBar

@@ -14,6 +14,8 @@ class TMDispatcher extends Flux.Dispatcher {
         this.dispatch(payload);
     }
     handleClientAction(type, data) {
+        let d= new Date();
+        console.log(type, 'Started on', d);
         let payload = {
             origin: 'CLIENT',
             type: type,
@@ -21,6 +23,7 @@ class TMDispatcher extends Flux.Dispatcher {
         };
         
         this.dispatch(payload);
+        console.log(type, 'finished on', new Date(), 'total', new Date() - d);
     }
 }
 

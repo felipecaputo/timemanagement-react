@@ -46,3 +46,20 @@ body {
 .modal-content {
   background-color: inherit;
 }
+
+.info-finished {
+  float: right;
+  position: relative;
+  top: 2px;
+  right: 4px;
+  color: rgba(230,230,240, 0.9);
+  background-color: rgba(40, 40, 140, 0.8);
+  padding: 2px 8px 2px 8px;
+  border-radius: 5px;
+  box-shadow: -2px 2px 4px rgba(80, 80, 180, 0.8);
+}
+
+.chronometer {
+  font-size: xx-large;
+  font-weight: 600;
+}

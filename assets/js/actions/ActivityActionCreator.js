@@ -71,6 +71,14 @@ class ActivityActions {
                 Dispatcher.handleClientAction(Cons.ACTIVITY_LIST_UPDATED, activityList);
             })
     }
+    /**
+     * Load all finished activities and fires dispatcher notifying that finished activity lists
+     * was updated and the new list
+     */
+    getFinishedActivities(){
+        ActivityUtils.getFinishedActivities()
+            .then(list => Dispatcher.handleClientAction(Cons.ACTIVITY_FINISHED_LIST_UPDATED, list));
+    }
 }
 
 let activityActions = new ActivityActions() ;

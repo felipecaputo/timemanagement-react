@@ -18,12 +18,15 @@ export default class TimeManagementApp extends React.Component {
         this.__handleCancelActivity = this.__handleCancelActivity.bind(this);
         this.__handleSaveActivity = this.__handleSaveActivity.bind(this);
         this.__handleChange = this.__handleChange.bind(this);
+        this.__toggleShowFinished = this.__toggleShowFinished.bind(this);
         
         this.state = {
             showingCreate: false,
             activities: ActivityStore.getActivityList(),
+            finishedActivities: ActivityStore.getFinishedActivities(),
             categories: CategoryStore.getCategoryList(),
-            projects: ProjectStore.getProjectList()
+            projects: ProjectStore.getProjectList(),
+            showFinished: false
         };
     }
     __handleCreateNewActivity() {
@@ -45,6 +48,7 @@ export default class TimeManagementApp extends React.Component {
     __handleChange(){
         this.setState({
             activities: ActivityStore.getActivityList(),
+            finishedActivities: ActivityStore.getFinishedActivities(),
             categories: CategoryStore.getCategoryList(),
             projects: ProjectStore.getProjectList()
         })
@@ -59,8 +63,13 @@ export default class TimeManagementApp extends React.Component {
         this.categoryToken();
         this.projectToken();
     }
+    __toggleShowFinished(){
+        this.setState({
+            showFinished: !this.state.showFinished
+        })
+    }
     render(){
-        var activityDiv;
+        let activityDiv, finishedActivities;
         if(this.state.showingCreate) {            
             activityDiv = <EditActivityDiv  {...this.state}
                 show={ this.state.showingCreate } 
@@ -68,17 +77,36 @@ export default class TimeManagementApp extends React.Component {
                 onCancel={this.__handleCancelActivity}
             />;            
         }
-         
+        
+        if (this.state.showFinished){
+            finishedActivities = (
+                <div className='container'>
+                    <h4>Finished Activities</h4>
+                    <ActivityList
+                        activities={this.state.finishedActivities} 
+                    />
+                </div>
+            )
+        }
+        
+        
         return (
             <div className='container-fluid'>
                 <AppTile />
-                <AppToolBar onCreateNewActivity={ this.__handleCreateNewActivity }/>
+                <AppToolBar 
+                    onCreateNewActivity={ this.__handleCreateNewActivity }
+                    showFinished={this.state.showFinished}
+                    onToggleShowFinished={this.__toggleShowFinished}/>
                 <hl/>
                 <div className='container'>
                     {activityDiv}
-                    <ActivityList
-                        activities={this.state.activities} 
-                    />
+                    <div className='container'>
+                        <h4>Current Activities</h4>
+                        <ActivityList
+                            activities={this.state.activities} 
+                        />
+                    </div>
+                    {finishedActivities}
                 </div>
             </div>
         );

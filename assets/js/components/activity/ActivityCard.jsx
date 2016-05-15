@@ -1,10 +1,20 @@
 import * as React from 'react';
 import * as ActivityControls from './ActivityControls';
+import Cons from '../../constants/ActivityConstants';
 
 export default (props) => {
-    var activity = props.activity;
+    let activity = props.activity,
+        cardClass = 'activity-card',
+        activityInfo;
+        
+    if (activity.status === Cons.ACTIVITY_STATUS.FINISHED) {
+        cardClass += ' activity-card-finished';
+        activityInfo = <span className='info-finished'>Finished</span>;
+    }
+    
     return (
-        <div className="activity-card">
+        <div className={cardClass}>
+            {activityInfo}
             <h3>
                 { activity.title }
             </h3>

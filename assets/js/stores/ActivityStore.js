@@ -23,6 +23,7 @@ class ActivityStore extends FluxUtils.Store {
         this.__activityList = [];
         this.__finishedActivityList = [];
         ActivityActions.getCurrentActivities();
+        ActivityActions.getFinishedActivities();
     }
     /**
      * Event that receives fired actions
@@ -52,12 +53,20 @@ class ActivityStore extends FluxUtils.Store {
             case ActivityConsts.ACTIVITY_DONE:
                 this.updateActivity(payload.data);
                 break;
+           case ActivityConsts.ACTIVITY_FINISHED_LIST_UPDATED:
+                this.__setFinishedList(payload.data);
+                break;
         }
     }
     __addActivity(activity){
         this.__activityList.push(activity);
         this.__emitChange();
     }
+    /**
+     * (description)
+     * 
+     * @param {Array<Object>} activityList 
+     */
     __setActivityList(activityList) {
         this.__activityList = activityList;
         this.__emitChange();
@@ -122,6 +131,10 @@ class ActivityStore extends FluxUtils.Store {
             return this.__removeFromList(...args);
         }
     }
+    __setFinishedList(list){
+        this.__finishedActivityList = list;
+        this.__emitChange();
+    }
     /**
      * Returns the internal activity list
      * 
@@ -129,6 +142,9 @@ class ActivityStore extends FluxUtils.Store {
      */
     getActivityList() {
         return this.__activityList;
+    }
+    getFinishedActivities() {
+        return this.__finishedActivityList;
     }
     updateActivity(activity){
       console.log('updated', activity.id);

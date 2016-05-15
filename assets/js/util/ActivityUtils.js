@@ -7,18 +7,33 @@ import TMDispatcher from '../dispatcher/TMDispatcher';
 
 class ActivityUtils {
     /**
-     * Get all activities with an [Active] status 
+     * Returns an array with all activities in the given status
+     * 
+     * @param {string} status the status of the expected activities
+     * @returns {Promise<Array<Object>>} A list of activities in the given status
+     */
+    getActivityListByStatus(status){
+        return new Promise( (resolve, reject) => {
+            DB.activities.where('status').equals(status).toArray()
+                .then( activityList => resolve(activityList))
+                .catch( error => reject(error));
+        })
+    }
+    /**
+     * Get all activities with an **Active** status 
      * 
      * @returns {Promise<Object[]>} A promise that resolves to an activity list
      */
     getCurrentActivities() {
-        return new Promise( (resolve, reject) => {
-            DB.activities.where('status').equals(Cons.ACTIVITY_STATUS.ACTIVE).toArray()
-                .then( activityList => {
-                    TMDispatcher.handleRequestAction(Cons.ACTIVITY_LIST_UPDATED,activityList);
-                })
-                .catch( error => reject(error));
-        })
+        return this.getActivityListByStatus(Cons.ACTIVITY_STATUS.ACTIVE);
+    }
+    /**
+     * Get all activities with an **Finished** status 
+     * 
+     * @returns {Promise<Object[]>} A promise that resolves to an activity list
+     */
+    getFinishedActivities(){
+        return this.getActivityListByStatus(Cons.ACTIVITY_STATUS.FINISHED);
     }
     
     /**
