@@ -72,7 +72,7 @@ export default class CreateActivityModal extends React.Component {
             <Modal show={ this.props.show } className="activity-modal">
                 <Modal.Header>
                     <Modal.Title> 
-                        New Activity - <small>{ this.state.activity.title }</small>
+                        New Activity
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>              

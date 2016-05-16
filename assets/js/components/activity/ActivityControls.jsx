@@ -66,6 +66,7 @@ export const ActivityStartStopButton = props => {
             <button 
                 className="btn btn-small btn-success" 
                 onClick={() => ActionCreator.startActivity(props.activity) }
+                disabled={props.activity.status !== Cons.ACTIVITY_STATUS.ACTIVE}
             >
                 <span className="glyphicon glyphicon-play"></span>
             </button>
