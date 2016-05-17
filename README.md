@@ -7,13 +7,33 @@ and projects.
 
 ## How to build
 
-first you need to clone the repo locally 
+first you need to clone the repo locally
+
+    git clone https://github.com/felipecaputo/timemanagement-react.git
+    cd timemanagement-react
+
+Install global dependencies (preceed with sudo for linux)
+
+    npm i electron-prebuilt babel gulp -g
 
 After that you just need to
     
     npm i && gulp build && npm start
     
 Have fun!!
+
+## Developing
+
+  The `gulp` default task has a watch behavior that builds automatically after 
+  each change, so you just need to run it once and in electron **Ctrl + R**
+  refresh then App after the change. 
+   
+  **Happy Coding!**
+  
+## Tests
+
+  Saddly still a work in progress, but I pretend to use Jest and Zombie+Cucumber
+  for unit and functional tests 
 
 ## ToDo
 
@@ -25,4 +45,5 @@ Have fun!!
 
 ## Contribute
 
-  Feel free contribute forking the repo or opening issues
+  Feel free contribute forking the repo or 
+  [opening issues](https://github.com/felipecaputo/timemanagement-react/issues)
