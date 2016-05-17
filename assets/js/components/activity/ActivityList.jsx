@@ -9,7 +9,7 @@ var ActivityList = props => {
         /> 
     });
     
-    return <div className="container">{activityElements}</div>
+    return <div>{activityElements}</div>
 
 };
 

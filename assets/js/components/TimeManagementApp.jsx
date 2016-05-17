@@ -80,7 +80,7 @@ export default class TimeManagementApp extends React.Component {
         
         if (this.state.showFinished){
             finishedActivities = (
-                <div className='container'>
+                <div>
                     <h4>Finished Activities</h4>
                     <ActivityList
                         activities={this.state.finishedActivities} 
@@ -100,7 +100,7 @@ export default class TimeManagementApp extends React.Component {
                 <hl/>
                 <div className='container'>
                     {activityDiv}
-                    <div className='container'>
+                    <div>
                         <h4>Current Activities</h4>
                         <ActivityList
                             activities={this.state.activities} 

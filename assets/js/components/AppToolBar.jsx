@@ -6,14 +6,18 @@ import ActivityActions from '../actions/ActivityActionCreator';
 
 const AppToolBar = (props) => {
     return (
-        <div className='container'>
+        <div>
             <div id='toolbar-right'>
-                <Button bsStyle='success' onClick={props.onCreateNewActivity}>
+                <Button 
+                    bsStyle='success'
+                    className='toolbar-button' 
+                    onClick={props.onCreateNewActivity}>
                     <span className='glyphicon glyphicon-plus'></span>
                     New Activity
                 </Button>
                 <Button
                     bsStyle='primary'
+                    className='toolbar-button'
                     active={props.showFinished}
                     onClick={props.onToggleShowFinished}
                 >

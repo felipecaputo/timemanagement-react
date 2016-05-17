@@ -19,11 +19,11 @@ body {
 
 .activity-card {
   border-radius: 20px;
-  background-clip: padding-box;
+  /*background-clip: padding-box;*/
   background-color: #292929;
   background-color: rgba(30, 30, 40, 0.8);
-  border: 10px solid transparent;
-  padding: 20px;
+  border: 1px solid transparent;
+  padding: 8px;
 }
 
 .activity-card a {
@@ -31,8 +31,16 @@ body {
   text-decoration: none;
 }
 
+.activity-card h3 {
+  font-weight: 600;
+}
+
 .activity-card div {
   text-align: center;
+}
+
+.activity-details {
+  height: 30px;
 }
 
 .clearfix {
@@ -62,4 +70,15 @@ body {
 .chronometer {
   font-size: xx-large;
   font-weight: 600;
+  vertical-align: middle;
+  padding: 2px 6px 2px 12px;
+}
+
+.button-icon {
+  padding-right: 6px;
+}
+
+.toolbar-button {
+  margin: 0 8px 0 8px;
+  width: 140px;
 }

@@ -27,6 +27,11 @@ build/Release
 # Compiled js
 lib
 
+#vendors css
+assets/styles/bootstrap-theme.min.css
+assets/styles/bootstrap.min.css
+assets/fonts
+
 # Dependency directory
 node_modules
 

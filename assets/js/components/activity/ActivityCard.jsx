@@ -14,31 +14,28 @@ export default (props) => {
     
     return (
         <div className={cardClass}>
-            <div className='row'>
+            <div>
                 {activityInfo}
-                <div className='col-md-3'>
-                    <ActivityControls.ActivityStartStopButton activity= { activity }/>
-                </div>
-                <div className='col-md-9'>
-                    <h3>
-                        { activity.title }
-                    </h3>
-                    <div className="clearfix">
-                        <div className='pull-left'>
-                            Category: <b>{activity.category}</b>
-                        </div>
-                        <div className="pull-right">
-                            Project: <b>{activity.project}</b>
-                        </div>
-                    </div>
-                    <div>
-                        {activity.description}
-                    </div>
-                    <div>
-                        <ActivityControls.ActivityChronometer activity= { activity }/>
-                    </div>
+                <h3>
                     <ActivityControls.ActivityFinishButton activity={activity} />
+                    { activity.title }
+                </h3>
+                <div className="clearfix activity-details">
+                    <div className='pull-left'>
+                        Category: <b>{activity.category}</b>
+                    </div>
+                    <div className="pull-right">
+                        Project: <b>{activity.project}</b>
+                    </div>
                 </div>
+                <div>
+                    {activity.description}
+                </div>
+                <div>
+                    <ActivityControls.ActivityStartStopButton activity= { activity }/>
+                    <ActivityControls.ActivityChronometer activity= { activity }/>
+                </div>
+                
             </div>
         </div>
     );

@@ -62,18 +62,63 @@ function bundle(bundler) {
     .pipe(livereload()); // Reload the view in the browser
 }
 
+// Completes the final file outputs
+function bundleProd(bundler) {
+  var bundleTimer = duration('Javascript bundle time');
+
+  bundler
+    .bundle()
+    .on('error', mapError) // Map error reporting
+    .pipe(source(config.js.src)) // Set source name
+    .pipe(buffer()) // Convert to gulp pipeline
+    .pipe(rename(config.js.outputFile)) // Rename the output file
+    .pipe(sourcemaps.init({loadMaps: true})) // Extract the inline sourcemaps
+    .pipe(sourcemaps.write('./map')) // Set folder for sourcemaps to output to
+    .pipe(gulp.dest(config.js.outputDir)) // Set the output folder
+    .pipe(notify({
+      message: 'Generated file: <%= file.relative %>',
+    })) // Output the file being created
+    .pipe(bundleTimer) // Output time timing of the file creation
+}
+
+function getBundler(willWatch) {
+  if (willWatch) {
+    const args = merge(watchify.args, { debug: true, extensions: ['.js','.json','.jsx'] }); // Merge in default watchify args with browserify arguments
+    return browserify(config.js.src, args) // Browserify
+      .plugin(watchify, {ignoreWatch: ['**/node_modules/**', '**/bower_components/**']}) // Watchify to watch source file changes
+      .transform(babelify, {presets: ['es2015', 'react']}); // Babel tranforms    
+  } else {
+    const args = { debug: false, extensions: ['.js','.json','.jsx'] }; // Merge in default watchify args with browserify arguments
+    return browserify(config.js.src, args) // Browserify
+      .transform(babelify, {presets: ['es2015', 'react']}); // Babel tranforms    
+  }
+
+}
+
 // Gulp task for build
-gulp.task('default', function() {
+gulp.task('default', ['copy-res'], function() {
   livereload.listen(); // Start livereload server
-  var args = merge(watchify.args, { debug: true, extensions: ['.js','.json','.jsx'] }); // Merge in default watchify args with browserify arguments
 
-  var bundler = browserify(config.js.src, args) // Browserify
-    .plugin(watchify, {ignoreWatch: ['**/node_modules/**', '**/bower_components/**']}) // Watchify to watch source file changes
-    .transform(babelify, {presets: ['es2015', 'react']}); // Babel tranforms
-
+  let bundler = getBundler(true); 
   bundle(bundler); // Run the bundle the first time (required for Watchify to kick in)
 
   bundler.on('update', function() {
     bundle(bundler); // Re-run bundle on source updates
   });
 });
+
+gulp.task('copy-css', () =>{
+  return gulp.src('./node_modules/bootstrap/dist/css/**/*.min.css')
+    .pipe(gulp.dest('./assets/styles'))
+})
+
+gulp.task('copy-fonts', () =>{
+  return gulp.src('./node_modules/bootstrap/dist/fonts/*.{ttf,woff,eof,svg}')
+    .pipe(gulp.dest('./assets/fonts'))
+})
+
+gulp.task('copy-res', ['copy-css', 'copy-fonts']);
+
+gulp.task('build', ['copy-res'], () => {
+  return bundleProd(getBundler(false));
+})

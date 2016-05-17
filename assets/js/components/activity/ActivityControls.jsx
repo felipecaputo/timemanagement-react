@@ -55,7 +55,7 @@ export const ActivityStartStopButton = props => {
     if(props.activity.lastEndTime === Cons.INVALID_ENDTIME){
         button = (
             <button 
-                className="btn btn-small btn-danger" 
+                className="btn btn-lg btn-danger" 
                 onClick={() => ActionCreator.stopActivity(props.activity)}
             >
                 <span className="glyphicon glyphicon-stop"></span>
@@ -64,7 +64,7 @@ export const ActivityStartStopButton = props => {
     }  else {
         button = (
             <button 
-                className="btn btn-small btn-success" 
+                className="btn btn-lg btn-success" 
                 onClick={() => ActionCreator.startActivity(props.activity) }
                 disabled={props.activity.status !== Cons.ACTIVITY_STATUS.ACTIVE}
             >
@@ -83,11 +83,12 @@ ActivityStartStopButton.propTypes = {
 export const ActivityFinishButton = props => {
     return (
         <button 
-            className="btn btn-small btn-primary" 
+            className="btn btn-lg btn-primary" 
             onClick={() => ActionCreator.finishActivity(props.activity) }
             disabled={props.activity.status !== Cons.ACTIVITY_STATUS.ACTIVE}
+            title='Finishes this activity'
         >
-            <span className="glyphicon glyphicon-ok"></span>
+            <i className="glyphicon glyphicon-ok"></i>
         </button>
     )
 } 
