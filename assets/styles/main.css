@@ -24,6 +24,7 @@ body {
   background-color: rgba(30, 30, 40, 0.8);
   border: 1px solid transparent;
   padding: 8px;
+  margin-bottom: 10px;
 }
 
 .activity-card a {

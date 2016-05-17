@@ -17,8 +17,8 @@ export default (props) => {
             <div>
                 {activityInfo}
                 <h3>
-                    <ActivityControls.ActivityFinishButton activity={activity} />
                     { activity.title }
+                    <ActivityControls.ActivityFinishButton activity={activity} />
                 </h3>
                 <div className="clearfix activity-details">
                     <div className='pull-left'>

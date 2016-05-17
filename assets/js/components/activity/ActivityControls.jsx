@@ -83,7 +83,7 @@ ActivityStartStopButton.propTypes = {
 export const ActivityFinishButton = props => {
     return (
         <button 
-            className="btn btn-lg btn-primary" 
+            className="btn btn-sm btn-primary" 
             onClick={() => ActionCreator.finishActivity(props.activity) }
             disabled={props.activity.status !== Cons.ACTIVITY_STATUS.ACTIVE}
             title='Finishes this activity'
