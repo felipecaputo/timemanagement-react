@@ -19,6 +19,7 @@ export default class TimeManagementApp extends React.Component {
         this.__handleSaveActivity = this.__handleSaveActivity.bind(this);
         this.__handleChange = this.__handleChange.bind(this);
         this.__toggleShowFinished = this.__toggleShowFinished.bind(this);
+        this.__toggleEditModal = this.__toggleEditModal.bind(this);
         
         this.state = {
             showingCreate: false,
@@ -68,6 +69,11 @@ export default class TimeManagementApp extends React.Component {
             showFinished: !this.state.showFinished
         })
     }
+    __toggleEditModal(activity) {
+        this.setState({
+            editingActivity: activity
+        })
+    }
     render(){
         let activityDiv, finishedActivities;
         if(this.state.showingCreate) {            
@@ -103,7 +109,9 @@ export default class TimeManagementApp extends React.Component {
                     <div>
                         <h4>Current Activities</h4>
                         <ActivityList
-                            activities={this.state.activities} 
+                            activities={this.state.activities}
+                            onActivityTitleClick={this.__toggleEditModal}
+                            editingActivity={this.state.editingActivity} 
                         />
                     </div>
                     {finishedActivities}

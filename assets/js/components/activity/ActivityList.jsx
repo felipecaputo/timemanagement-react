@@ -6,10 +6,13 @@ var ActivityList = props => {
         return <ActivityCard 
             key={ activity.id } 
             activity= { activity }
+            onActivityTitleClick = {props.onActivityTitleClick}
         /> 
     });
     
-    return <div>{activityElements}</div>
+    return (
+        <div>{activityElements}</div>
+    );
 
 };
 
