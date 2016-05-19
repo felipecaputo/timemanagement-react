@@ -13,10 +13,11 @@ os:
   - linux
 
 before_script:
-  - npm install -g gulp
+  - npm install -g gulp mocha
   
 script:
   - gulp build
+  - gulp test:coverage
     
 #before_install:
 #  - if [ $TRAVIS_OS_NAME == "linux" ]; then

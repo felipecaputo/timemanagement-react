@@ -45,6 +45,7 @@ export class ActivityChronometer extends React.Component {
     }
 }
 
+
 ActivityChronometer.propTypes = {
     activity: React.PropTypes.object.isRequired
 }
