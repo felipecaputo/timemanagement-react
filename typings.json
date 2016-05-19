@@ -1,8 +1,12 @@
 {
   "ambientDependencies": {
     "browserify": "registry:dt/browserify#12.0.1+20160317120654",
+    "chai": "registry:dt/chai#3.4.0+20160317120654",
+    "enzyme": "registry:dt/enzyme#1.2.0+20160512040431",
     "flux": "registry:dt/flux#0.0.0+20160317120654",
+    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
     "node": "registry:dt/node#4.0.0+20160330064709",
-    "react": "registry:dt/react#0.14.0+20160319053454"
+    "react": "registry:dt/react#0.14.0+20160319053454",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040"
   }
 }
