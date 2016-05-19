@@ -2,10 +2,7 @@ language: node_js
 node_js:
   - "node"
   - "5.1"
-  - "5"
   - "4.2"
-  - "4.1"
-  - "4"
   
 sudo: false
 
@@ -13,11 +10,12 @@ os:
   - linux
 
 before_script:
-  - npm install -g gulp mocha
+  - npm install -g gulp mocha codeclimate-test-reporter
   
 script:
   - gulp build
   - gulp test:coverage
+  - codeclimate-test-reporter < coverage/lcov.info
     
 #before_install:
 #  - if [ $TRAVIS_OS_NAME == "linux" ]; then
