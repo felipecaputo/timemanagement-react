@@ -15,11 +15,17 @@ var watchify = require('watchify'); // Watchify for source changes
 var merge = require('utils-merge'); // Object merge tool
 var duration = require('gulp-duration'); // Time aspects of your gulp process
 
+//to run tests
+var mocha = require('gulp-mocha');
+var istanbul = require('gulp-istanbul');
+var isparta = require('isparta');
+var runSequence = require('run-sequence');
+
 // Configuration for Gulp
 var config = {
   js: {
-    src: './assets/js/app.js',
-    watch: './assets/js/**/*',
+    src: 'src/app.js',
+    watch: 'src/**/*',
     outputDir: './assets/lib/',
     outputFile: 'bundle.js',
   },
@@ -124,15 +130,8 @@ gulp.task('build', ['copy-res'], () => {
 })
 
 
-//https://gist.github.com/yannickcr/6129327b31b27b14efc5
-// 'use strict';
+// //https://gist.github.com/yannickcr/6129327b31b27b14efc5
 
-// var gulp = require('gulp');
-// var gutil = require('gulp-util');
-// var mocha = require('gulp-mocha');
-// var istanbul = require('gulp-istanbul');
-// var isparta = require('isparta');
-// var runSequence = require('run-sequence');
 
 // // Transform all required files with Babel
 // require('babel/register');
