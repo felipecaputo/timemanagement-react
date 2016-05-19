@@ -1,12 +1,11 @@
 'use strict';
 
 import * as React from 'react';
-import ActivityList from './activity/ActivityList';
 import AppTile from './AppTitle';
 import AppToolBar from './AppToolBar';
 import ActivityAction from '../actions/ActivityActionCreator';
-import CreateActivityModal from './activity/CreateActivityModal';
-import EditActivityDiv from './activity/EditActivityDiv';
+import ActivityContainer from './activity/ActivityContainer';
+
 import ActivityStore from '../stores/ActivityStore';
 import CategoryStore from '../stores/CategoryStore';
 import ProjectStore from '../stores/ProjectStore';
@@ -75,27 +74,6 @@ export default class TimeManagementApp extends React.Component {
         })
     }
     render(){
-        let activityDiv, finishedActivities;
-        if(this.state.showingCreate) {            
-            activityDiv = <EditActivityDiv  {...this.state}
-                show={ this.state.showingCreate } 
-                onSave={this.__handleSaveActivity} 
-                onCancel={this.__handleCancelActivity}
-            />;            
-        }
-        
-        if (this.state.showFinished){
-            finishedActivities = (
-                <div>
-                    <h4>Finished Activities</h4>
-                    <ActivityList
-                        activities={this.state.finishedActivities} 
-                    />
-                </div>
-            )
-        }
-        
-        
         return (
             <div className='container-fluid'>
                 <AppTile />
@@ -104,18 +82,12 @@ export default class TimeManagementApp extends React.Component {
                     showFinished={this.state.showFinished}
                     onToggleShowFinished={this.__toggleShowFinished}/>
                 <hl/>
-                <div className='container'>
-                    {activityDiv}
-                    <div>
-                        <h4>Current Activities</h4>
-                        <ActivityList
-                            activities={this.state.activities}
-                            onActivityTitleClick={this.__toggleEditModal}
-                            editingActivity={this.state.editingActivity} 
-                        />
-                    </div>
-                    {finishedActivities}
-                </div>
+                <ActivityContainer {...this.state}
+                    onActivityTitleClick={this.__toggleEditModal}
+                    editingActivity={this.state.editingActivity}
+                    onSaveActivity={this.__handleSaveActivity}
+                    onCancelEdit={this.__handleCancelActivity}
+                />
             </div>
         );
     }
