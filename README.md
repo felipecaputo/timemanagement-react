@@ -1,4 +1,8 @@
-# TimeManagement App
+# TimeManagement App 
+[![Build Status](https://travis-ci.org/felipecaputo/timemanagement-react.svg?branch=master)](https://travis-ci.org/felipecaputo/timemanagement-react)
+[![Code Climate](https://codeclimate.com/github/felipecaputo/timemanagement-react/badges/gpa.svg)](https://codeclimate.com/github/felipecaputo/timemanagement-react)
+[![Issue Count](https://codeclimate.com/github/felipecaputo/timemanagement-react/badges/issue_count.svg)](https://codeclimate.com/github/felipecaputo/timemanagement-react)
+[![Test Coverage](https://codeclimate.com/github/felipecaputo/timemanagement-react/badges/coverage.svg)](https://codeclimate.com/github/felipecaputo/timemanagement-react/coverage) 
 
 This is a simple app to track your time between various tasks
 and projects.
@@ -7,18 +11,17 @@ and projects.
 
 ## How to build
 
-first you need to clone the repo locally
+```bash
+#first you need to clone the repo locally
+git clone https://github.com/felipecaputo/timemanagement-react.git
+cd timemanagement-react
 
-    git clone https://github.com/felipecaputo/timemanagement-react.git
-    cd timemanagement-react
+#Install global dependencies (preceed with sudo for linux)
+npm i electron-prebuilt babel gulp -g
 
-Install global dependencies (preceed with sudo for linux)
-
-    npm i electron-prebuilt babel gulp -g
-
-After that you just need to
-    
-    npm i && gulp build && npm start
+#After that you just need to
+npm i && gulp build && npm start
+```
     
 Have fun!!
 

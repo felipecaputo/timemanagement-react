@@ -12,7 +12,7 @@ export default class EditActivityDiv extends React.Component {
                 description: '',
                 projectId: -1,
                 project: '',
-                categoryId: -1,
+                categoryId: -1, 
                 category: ''
             },
             processing: false 
