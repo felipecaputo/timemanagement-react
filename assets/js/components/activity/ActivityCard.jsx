@@ -17,7 +17,7 @@ export default (props) => {
             <div>
                 {activityInfo}
                 <h3>
-                    <a href='#' onClick={() => props.onActivityTitleClick(ativivity)}>{ activity.title }</a>
+                    <a href='#' onClick={() => props.onActivityTitleClick(activity)}>{ activity.title }</a>
                     <ActivityControls.ActivityFinishButton activity={activity} />
                 </h3>
                 <div className="clearfix activity-details">

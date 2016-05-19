@@ -3,8 +3,8 @@ import ActivityList from './ActivityList';
 import EditActivityDiv from './EditActivityDiv';
 import ActivityDetails from './ActivityDetailsModal';
 
-const FinishedActivities = props => {
-    if (!props.showFinished) return <div />;
+const finishedActivities = props => {
+    if (!props.showFinished) return null;
 
     return (
         <div>
@@ -36,7 +36,7 @@ const EditDiv = props => {
     )
 }
 
-const ActivityDetails = props => {    
+const DetailsModal = props => {    
     return (
         <ActivityDetails
             {...props}
@@ -51,7 +51,8 @@ export default function ActivityContainer(props) {
         <div>
             <EditDiv {...props} />
             <CurrentActivities {...props}/>
-            <FinishedActivities {...props}/>
+            {finishedActivities(props)}
+            {DetailsModal(props)}
         </div>
     )
 }
