@@ -33,6 +33,7 @@ var config = {
   },
 };
 
+
 // Error reporting function
 function mapError(err) {
   if (err.fileName) {
@@ -141,7 +142,7 @@ gulp.task('build', ['copy-res'], () => {
 require('babel-register')({extensions: config.js.extensions});
 
 // Files to process
-var TEST_FILES = './test/**/*-test+(.js|.jsx)';
+var TEST_FILES = './test/**/*-test.js';
 
 /**
  * Run unit tests
@@ -165,7 +166,7 @@ gulp.task('test:coverage', require('gulp-jsx-coverage').createTask({
     src: [
       TEST_FILES,
       'src/components/activity/*.jsx'
-    ],          // will pass to gulp.src as mocha tests 
+    ],          // will pass to gulp.src as mocha tests  
     isparta: false,                                  // use istanbul as default 
     istanbul: {                                      // will pass to istanbul or isparta 
         preserveComments: true,                      // required for istanbul 0.4.0+ 
@@ -186,18 +187,10 @@ gulp.task('test:coverage', require('gulp-jsx-coverage').createTask({
             include: /\.jsx?$/,
             exclude: /node_modules/,
             omitExt: ['.jsx']                           // if you wanna omit file ext when require(), put an array 
-        },                                           // of file exts here. Ex: ['.jsx', '.es6'] (NOT RECOMMENDED) 
-        coffee: {
-            include: /\.coffee$/,
-            omitExt: false                           // if you wanna omit file ext when require(), put an array 
-        },                                           // of file exts here. Ex: ['.coffee'] (NOT RECOMMENDED) 
-        cjsx: {
-            include: /\.cjsx$/,
-            omitExt: false                           // if you wanna omit file ext when require(), put an array 
-        }                                            // of file exts here. Ex: ['.cjsx'] (NOT RECOMMENDED) 
+        } 
     },
     coverage: {
-        reporters: ['text', 'text-summary', 'json', 'lcov'], // list of istanbul reporters 
+        reporters: ['text', 'text-summary', 'json', 'lcov', 'html'], // list of istanbul reporters 
         directory: 'coverage'                        // will pass to istanbul reporters 
     },
     mocha: {                                         // will pass to mocha 
@@ -211,13 +204,13 @@ gulp.task('test:coverage', require('gulp-jsx-coverage').createTask({
         sourceMap: 'both'                            // get hints in covarage reports or error stack 
     },
  
-    coffee: {                                        // will pass to coffee.compile 
-        sourceMap: true                              // true to get hints in HTML coverage reports 
-    },
- 
     //optional 
     cleanup: function () {
         // do extra tasks after test done 
-        // EX: clean global.window when test with jsdom 
+        // EX: clean global.window when test with jsdom
+        global.window = undefined;
+        global.navigator = undefined;
+        global.document = undefined;
+        return;
     }
 }));

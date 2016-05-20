@@ -18,6 +18,16 @@
 			"taskName": "default",
 			"showOutput": "never",
 			"isWatching": true
+		},
+		{
+			"taskName": "tdd",
+			"showOutput": "silent",
+			"isWatching": true
+		},
+		{
+			"taskName": "test",
+			"showOutput": "silent",
+			"isTestCommand": true
 		}
 	]
 }

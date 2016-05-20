@@ -15,23 +15,25 @@ describe("PlayStop Button", () => {
         expect(mount(PlayStop({})).find('button').length).to.equal(1);
     });
 
-    it("When activity is stoped, playbutton must be show", function () {
-        expect(shallow(PlayStop(Factory.getNewActivity())).is('.btn-success')).to.equal(true);
+    it("must show play button when activity is stoped", function () {
+        expect(shallow(PlayStop(Factory.getNewActivity())).hasClass('btn-success')).to.equal(true);
     });
 
-    it("When activity is running, stop button must be show", function () {
-        expect(shallow(PlayStop(Factory.getRunningActivity())).is('.btn-danger')).to.equal(true);
+    it("should show stop button when activity is running", function () {
+        expect(shallow(PlayStop(Factory.getRunningActivity())).hasClass('btn-danger')).to.equal(true);
     });
 
-    it("When activity is finished, play must be disabled", function () {
+    it("should be disabled for finished activity", function () {
         const wrapper = mount(PlayStop(Factory.getFinishedActivity()));
         expect(wrapper).to.be.disabled();
     });
 
-    it("When activity is finished, stop must be disabled", function () {
+    it("should be disabled for finished activity", function () {
         const wrapper = mount(PlayStop(Factory.getFinishedActivity()));
         expect(wrapper).to.be.disabled();
     });
+    
+    
 });
 
 describe('Chronometer', function () {
@@ -56,6 +58,20 @@ describe('Chronometer', function () {
     
     it('should be 00:00:10 based on total duration when stopped', function () {
         expect(render(getChrono(Factory.getActivityWithDuration(10000))).text()).to.be.equals('00:00:10');
+    })
+    
+    it('should change value after start the activity', function (done){
+        const activity = Factory.getNewActivity(); 
+        const element = mount(getChrono(activity));
+        expect(element.text()).to.be.equal('00:00:00');
+        activity.lastStartTime = new Date().getTime();
+        activity.lastEndTime = Cons.INVALID_ENDTIME;
+        
+        element.setProps({activity: activity});
+        setTimeout(function(){
+            expect(element.text()).to.be.equal('00:00:01');
+            done();
+        }, 1015);
     })
 })
 
