@@ -25,9 +25,11 @@ var runSequence = require('run-sequence');
 var config = {
   js: {
     src: 'src/app.js',
+    srcFiles: 'src/**/*.js',
     watch: 'src/**/*',
     outputDir: './assets/lib/',
     outputFile: 'bundle.js',
+    extensions: ['.js','.json','.jsx', '.react.js']
   },
 };
 
@@ -88,15 +90,17 @@ function bundleProd(bundler) {
 }
 
 function getBundler(willWatch) {
+  let presets = ['es2015', 'react'];
+  
   if (willWatch) {
-    const args = merge(watchify.args, { debug: true, extensions: ['.js','.json','.jsx'] }); // Merge in default watchify args with browserify arguments
+    const args = merge(watchify.args, { debug: true, extensions: config.js.extensions }); // Merge in default watchify args with browserify arguments
     return browserify(config.js.src, args) // Browserify
       .plugin(watchify, {ignoreWatch: ['**/node_modules/**', '**/bower_components/**']}) // Watchify to watch source file changes
-      .transform(babelify, {presets: ['es2015', 'react']}); // Babel tranforms    
+      .transform(babelify, {presets: presets}); // Babel tranforms    
   } else {
-    const args = { debug: false, extensions: ['.js','.json','.jsx'] }; // Merge in default watchify args with browserify arguments
+    const args = { debug: false, extensions: config.js.extensions }; // Merge in default watchify args with browserify arguments
     return browserify(config.js.src, args) // Browserify
-      .transform(babelify, {presets: ['es2015', 'react']}); // Babel tranforms    
+      .transform(babelify, {presets: presets}); // Babel tranforms    
   }
 
 }
@@ -134,17 +138,15 @@ gulp.task('build', ['copy-res'], () => {
 
 
 // Transform all required files with Babel
-require('babel-register')({extensions: [".es6", ".es", ".jsx", ".js"]});
+require('babel-register')({extensions: config.js.extensions});
 
 // Files to process
 var TEST_FILES = './test/**/*-test.js';
-var SRC_FILES = './src/**/*.{js, jsx}';
-
 /*
  * Instrument files using istanbul and isparta
  */
 gulp.task('coverage:instrument', function() {
-  return gulp.src(SRC_FILES)
+  return gulp.src(config.js.srcFiles)
     .pipe(istanbul({
       instrumenter: isparta.Instrumenter, // Use the isparta instrumenter (code coverage for ES6)
       // Istanbul configuration (see https://github.com/SBoudrias/gulp-istanbul#istanbulopt)
@@ -157,7 +159,7 @@ gulp.task('coverage:instrument', function() {
  * Write coverage reports after test success
  */
 gulp.task('coverage:report', function(done) {
-  return gulp.src(SRC_FILES, {read: false})
+  return gulp.src(config.js.srcFiles, {read: true})
     .pipe(istanbul.writeReports({
       // Istanbul configuration (see https://github.com/SBoudrias/gulp-istanbul#istanbulwritereportsopt)
       // ...
@@ -188,6 +190,6 @@ gulp.task('test:coverage', function(done) {
 gulp.task('tdd', function(done) {
   gulp.watch([
     TEST_FILES,
-    SRC_FILES
+    config.js.src
   ], ['test']).on('error', gutil.log);
 });

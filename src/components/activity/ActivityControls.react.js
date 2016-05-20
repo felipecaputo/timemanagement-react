@@ -24,7 +24,7 @@ export class ActivityChronometer extends React.Component {
             this.intervalId = undefined;            
         }
     }
-    componentDidMount(){
+    componentDidMount(){ 
         this.intervalId = this.__activityIsRunning() ? setInterval(this._tick, 200) : undefined;
     }
     componentWillUnmount(){

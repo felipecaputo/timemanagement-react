@@ -21,7 +21,6 @@ const CurrentActivities = props => {
             <ActivityList {...props}/>
         </div>
     )
-
 }
 
 const EditDiv = props => {
