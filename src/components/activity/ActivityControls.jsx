@@ -8,7 +8,7 @@ import { humanizedDuration } from '../../util/TimeUtils';
 export class ActivityChronometer extends React.Component {
     constructor (props) {
         super(props);
-        this.state = { currentDuration: props.activity.totalDuration };
+        this.state = { currentDuration: props.activity.totalDuration || 0 };
         
         this._tick = this._tick.bind(this);
     }
@@ -51,13 +51,15 @@ ActivityChronometer.propTypes = {
 }
 
 export const ActivityStartStopButton = props => {
-    let button;
+    let button,
+        disabled = props.activity.status !== Cons.ACTIVITY_STATUS.ACTIVE;
     
     if(props.activity.lastEndTime === Cons.INVALID_ENDTIME){
         button = (
             <button 
                 className="btn btn-lg btn-danger" 
                 onClick={() => ActionCreator.stopActivity(props.activity)}
+                disabled={disabled}
             >
                 <span className="glyphicon glyphicon-stop"></span>
             </button>
@@ -67,7 +69,7 @@ export const ActivityStartStopButton = props => {
             <button 
                 className="btn btn-lg btn-success" 
                 onClick={() => ActionCreator.startActivity(props.activity) }
-                disabled={props.activity.status !== Cons.ACTIVITY_STATUS.ACTIVE}
+                disabled={disabled}
             >
                 <span className="glyphicon glyphicon-play"></span>
             </button>

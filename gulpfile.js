@@ -137,8 +137,8 @@ gulp.task('build', ['copy-res'], () => {
 require('babel-register')({extensions: [".es6", ".es", ".jsx", ".js"]});
 
 // Files to process
-var TEST_FILES = 'test/**/*-test.js';
-var SRC_FILES = 'src/**/*.js';
+var TEST_FILES = './test/**/*-test.js';
+var SRC_FILES = './src/**/*.{js, jsx}';
 
 /*
  * Instrument files using istanbul and isparta
@@ -146,9 +146,9 @@ var SRC_FILES = 'src/**/*.js';
 gulp.task('coverage:instrument', function() {
   return gulp.src(SRC_FILES)
     .pipe(istanbul({
-      instrumenter: isparta.Instrumenter // Use the isparta instrumenter (code coverage for ES6)
+      instrumenter: isparta.Instrumenter, // Use the isparta instrumenter (code coverage for ES6)
       // Istanbul configuration (see https://github.com/SBoudrias/gulp-istanbul#istanbulopt)
-      // ...
+      extensions: ['.js', '.jsx']
     }))
     .pipe(istanbul.hookRequire()); // Force `require` to return covered files
 });
