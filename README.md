@@ -35,8 +35,15 @@ Have fun!!
   
 ## Tests
 
-  Saddly still a work in progress, but I pretend to use Jest and Zombie+Cucumber
-  for unit and functional tests 
+  Tests are done with Enzyme + Mocha. To run tests just run
+    
+    gulp test
+    
+  To get test coverage (using gulp-coverage-jsx + istanbul) , simply run:
+  
+    gulp test:coverage 
+    
+  If you are a huge fan of TDD, you can use `gulp tdd` to get tests executed every time you change a file (_still need improvements to not run all the tests_)
 
 ## ToDo
 
