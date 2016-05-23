@@ -29,7 +29,7 @@ var config = {
     watch: 'src/**/*',
     outputDir: './assets/lib/',
     outputFile: 'bundle.js',
-    extensions: ['.js','.json','.jsx', '.react.js']
+    extensions: ['.js', '.json', '.jsx', '.react.js']
   },
 };
 
@@ -61,7 +61,7 @@ function bundle(bundler) {
     .pipe(source(config.js.src)) // Set source name
     .pipe(buffer()) // Convert to gulp pipeline
     .pipe(rename(config.js.outputFile)) // Rename the output file
-    .pipe(sourcemaps.init({loadMaps: true})) // Extract the inline sourcemaps
+    .pipe(sourcemaps.init({ loadMaps: true })) // Extract the inline sourcemaps
     .pipe(sourcemaps.write('./map')) // Set folder for sourcemaps to output to
     .pipe(gulp.dest(config.js.outputDir)) // Set the output folder
     .pipe(notify({
@@ -81,7 +81,7 @@ function bundleProd(bundler) {
     .pipe(source(config.js.src)) // Set source name
     .pipe(buffer()) // Convert to gulp pipeline
     .pipe(rename(config.js.outputFile)) // Rename the output file
-    .pipe(sourcemaps.init({loadMaps: true})) // Extract the inline sourcemaps
+    .pipe(sourcemaps.init({ loadMaps: true })) // Extract the inline sourcemaps
     .pipe(sourcemaps.write('./map')) // Set folder for sourcemaps to output to
     .pipe(gulp.dest(config.js.outputDir)) // Set the output folder
     .pipe(notify({
@@ -92,38 +92,38 @@ function bundleProd(bundler) {
 
 function getBundler(willWatch) {
   let presets = ['es2015', 'react'];
-  
+
   if (willWatch) {
     const args = merge(watchify.args, { debug: true, extensions: config.js.extensions }); // Merge in default watchify args with browserify arguments
     return browserify(config.js.src, args) // Browserify
-      .plugin(watchify, {ignoreWatch: ['**/node_modules/**', '**/bower_components/**']}) // Watchify to watch source file changes
-      .transform(babelify, {presets: presets}); // Babel tranforms    
+      .plugin(watchify, { ignoreWatch: ['**/node_modules/**', '**/bower_components/**'] }) // Watchify to watch source file changes
+      .transform(babelify, { presets: presets }); // Babel tranforms    
   } else {
     const args = { debug: false, extensions: config.js.extensions }; // Merge in default watchify args with browserify arguments
     return browserify(config.js.src, args) // Browserify
-      .transform(babelify, {presets: presets}); // Babel tranforms    
+      .transform(babelify, { presets: presets }); // Babel tranforms    
   }
 
 }
 
 // Gulp task for build
-gulp.task('default', ['copy-res'], function() {
+gulp.task('default', ['copy-res'], function () {
   livereload.listen(); // Start livereload server
 
-  let bundler = getBundler(true); 
+  let bundler = getBundler(true);
   bundle(bundler); // Run the bundle the first time (required for Watchify to kick in)
 
-  bundler.on('update', function() {
+  bundler.on('update', function () {
     bundle(bundler); // Re-run bundle on source updates
   });
 });
 
-gulp.task('copy-css', () =>{
+gulp.task('copy-css', () => {
   return gulp.src('./node_modules/bootstrap/dist/css/**/*.min.css')
     .pipe(gulp.dest('./assets/styles'))
 })
 
-gulp.task('copy-fonts', () =>{
+gulp.task('copy-fonts', () => {
   return gulp.src('./node_modules/bootstrap/dist/fonts/*.{ttf,woff,eof,svg}')
     .pipe(gulp.dest('./assets/fonts'))
 })
@@ -139,7 +139,7 @@ gulp.task('build', ['copy-res'], () => {
 
 
 // Transform all required files with Babel
-require('babel-register')({extensions: config.js.extensions});
+require('babel-register')({ extensions: config.js.extensions });
 
 // Files to process
 var TEST_FILES = './test/**/*-test.js';
@@ -147,70 +147,84 @@ var TEST_FILES = './test/**/*-test.js';
 /**
  * Run unit tests
  */
-gulp.task('test', function() {
-  return gulp.src(TEST_FILES, {read: false})
-    .pipe(mocha({require: ['./test/.setup.js']}));
+gulp.task('test', function () {
+  return gulp.src(TEST_FILES, { read: false })
+    .pipe(mocha({ require: ['./test/.setup.js'] }))
+    .once('end', function (err) {
+      console.log('✓ Done!', err);
+      process.exit(process.exit(err ? 0 : 1));
+    });
 });
 
 /**
  * Watch files and run unit tests on changes
  */
-gulp.task('tdd', function(done) {
+gulp.task('tdd', function (done) {
   gulp.watch([
     TEST_FILES,
     config.js.srcFiles
-  ], ['test']).on('error', gutil.log);
+  ], ['test'])
+    .on('error', gutil.log)
+    .once('end', function (err) {
+      console.log('✓ Done!', err);
+      process.exit(process.exit(err ? 0 : 1));
+    });
 });
 
-gulp.task('test:coverage', require('gulp-jsx-coverage').createTask({
+gulp.task('test:coverage', function (done) {
+  gulp.doneCallback = function (err) {
+    process.exit(err ? 1 : 0);
+  }
+  require('gulp-jsx-coverage').createTask({
     src: [
       TEST_FILES,
       'src/components/activity/*.jsx'
     ],          // will pass to gulp.src as mocha tests  
     isparta: false,                                  // use istanbul as default 
     istanbul: {                                      // will pass to istanbul or isparta 
-        preserveComments: true,                      // required for istanbul 0.4.0+ 
-        coverageVariable: '__MY_TEST_COVERAGE__',
-        include: /\.(jsx|js)?$/,
-        exclude: /node_modules|test/            // do not instrument these files 
+      preserveComments: true,                      // required for istanbul 0.4.0+ 
+      coverageVariable: '__MY_TEST_COVERAGE__',
+      include: /\.(jsx|js)?$/,
+      exclude: /node_modules|test/            // do not instrument these files 
     },
- 
+
     threshold: [                                     // fail the task when coverage lower than one of this array 
-        {
-            type: 'lines',                           // one of 'lines', 'statements', 'functions', 'banches' 
-            min: 30
-        }
+      {
+        type: 'lines',                           // one of 'lines', 'statements', 'functions', 'banches' 
+        min: 30
+      }
     ],
- 
+
     transpile: {                                     // this is default whitelist/blacklist for transpilers 
-        babel: {
-            include: /\.jsx?$/,
-            exclude: /node_modules/,
-            omitExt: ['.jsx']                           // if you wanna omit file ext when require(), put an array 
-        } 
+      babel: {
+        include: /\.jsx?$/,
+        exclude: /node_modules/,
+        omitExt: ['.jsx']                           // if you wanna omit file ext when require(), put an array 
+      }
     },
     coverage: {
-        reporters: ['text', 'text-summary', 'json', 'lcov', 'html'], // list of istanbul reporters 
-        directory: 'coverage'                        // will pass to istanbul reporters 
+      reporters: ['text', 'text-summary', 'json', 'lcov', 'html'], // list of istanbul reporters 
+      directory: 'coverage'                        // will pass to istanbul reporters 
     },
     mocha: {                                         // will pass to mocha 
-        reporter: 'spec',
-        require: ['./test/.setup.js']
+      reporter: 'spec',
+      require: ['./test/.setup.js']
     },
- 
+
     // Recommend moving this to .babelrc 
     babel: {                                         // will pass to babel-core 
-        presets: ['es2015', 'react'],                // Use proper presets or plugins for your scripts 
-        sourceMap: 'both'                            // get hints in covarage reports or error stack 
+      presets: ['es2015', 'react'],                // Use proper presets or plugins for your scripts 
+      sourceMap: 'both'                            // get hints in covarage reports or error stack 
     },
- 
+
     //optional 
     cleanup: function () {
-        // do extra tasks after test done 
-        // EX: clean global.window when test with jsdom
-        global.window = undefined;
-        global.navigator = undefined;
-        global.document = undefined;
-        return;
+      // do extra tasks after test done 
+      // EX: clean global.window when test with jsdom
+      global.window = undefined;
+      global.navigator = undefined;
+      global.document = undefined;
+      done();
     }
-}));
+  })()
+});

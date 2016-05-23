@@ -71,7 +71,7 @@ describe('Chronometer', function () {
         setTimeout(function(){
             expect(element.text()).to.be.equal('00:00:01');
             done();
-        }, 1015);
+        }, 1100);
     })
 })
 
