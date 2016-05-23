@@ -150,10 +150,10 @@ var TEST_FILES = './test/**/*-test.js';
 gulp.task('test', function () {
   return gulp.src(TEST_FILES, { read: false })
     .pipe(mocha({ require: ['./test/.setup.js'] }))
-    .once('end', function (err) {
-      console.log('✓ Done!', err);
-      process.exit(process.exit(err ? 0 : 1));
-    });
+    // .once('end', function (err) {
+    //   console.log('✓ Done!', err);
+    //   process.exit(process.exit(err ? 0 : 1));
+    // });
 });
 
 /**

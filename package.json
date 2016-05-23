@@ -59,6 +59,7 @@
     "react-addons-test-utils": "^15.0.2",
     "react-bootstrap": "^0.28.5",
     "react-dom": "^15.0.2",
+    "sinon": "^1.17.4",
     "utils-merge": "^1.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

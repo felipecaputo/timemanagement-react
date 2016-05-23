@@ -6,7 +6,11 @@ export function getNewActivity() {
         status: Cons.ACTIVITY_STATUS.ACTIVE,
         lastStartTime: 0,
         lastEndTime: 0,
-        totalDuration: 0
+        totalDuration: 0,
+        periods: [
+            {start: new Date(2016, 1, 1, 1, 0), end: new Date(2016, 1, 1, 1, 1)},
+            {start: new Date(2016, 1, 1, 1, 10), end: new Date(2016, 1, 1, 1, 20)}
+        ]
     }
 }
 

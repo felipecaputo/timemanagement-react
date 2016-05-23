@@ -4,5 +4,7 @@
 /// <reference path="browser/ambient/flux/index.d.ts" />
 /// <reference path="browser/ambient/mocha/index.d.ts" />
 /// <reference path="browser/ambient/node/index.d.ts" />
+/// <reference path="browser/ambient/react-bootstrap/index.d.ts" />
 /// <reference path="browser/ambient/react-dom/index.d.ts" />
 /// <reference path="browser/ambient/react/index.d.ts" />
+/// <reference path="browser/ambient/sinon/index.d.ts" />
