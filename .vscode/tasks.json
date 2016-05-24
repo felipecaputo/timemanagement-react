@@ -9,7 +9,7 @@
 	],
 	"tasks": [
 		{
-			"taskName": "scripts",
+			"taskName": "build",
 			"isBuildCommand": true,
 			"showOutput": "never",
 			"isWatching": false

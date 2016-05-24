@@ -94,12 +94,12 @@ function getBundler(willWatch) {
   let presets = ['es2015', 'react'];
 
   if (willWatch) {
-    const args = merge(watchify.args, { debug: true, extensions: config.js.extensions }); // Merge in default watchify args with browserify arguments
+    const args = Object.assign(watchify.args, { debug: true, extensions: config.js.extensions }); // Merge in default watchify args with browserify arguments
     return browserify(config.js.src, args) // Browserify
       .plugin(watchify, { ignoreWatch: ['**/node_modules/**', '**/bower_components/**'] }) // Watchify to watch source file changes
       .transform(babelify, { presets: presets }); // Babel tranforms    
   } else {
-    const args = { debug: false, extensions: config.js.extensions }; // Merge in default watchify args with browserify arguments
+    const args = { debug: true, extensions: config.js.extensions }; // Merge in default watchify args with browserify arguments
     return browserify(config.js.src, args) // Browserify
       .transform(babelify, { presets: presets }); // Babel tranforms    
   }

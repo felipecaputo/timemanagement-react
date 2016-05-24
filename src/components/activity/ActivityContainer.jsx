@@ -35,12 +35,16 @@ const EditDiv = props => {
     )
 }
 
-const DetailsModal = props => {    
+const DetailsModal = props => {
+    if (!props.editingActivity) return;
+        
     return (
         <ActivityDetails
             {...props}
-            show={props.editingActivity}
+            show={true}
             activity={props.editingActivity}  
+            Fade={true}
+            Transition={true}
         />
     )
 }

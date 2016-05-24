@@ -11,7 +11,7 @@ import CategoryStore from '../stores/CategoryStore';
 import ProjectStore from '../stores/ProjectStore';
 
 export default class TimeManagementApp extends React.Component {
-    constructor(){
+    constructor(props){
         super(props);
         this.__handleCreateNewActivity= this.__handleCreateNewActivity.bind(this);
         this.__handleCancelActivity = this.__handleCancelActivity.bind(this);
