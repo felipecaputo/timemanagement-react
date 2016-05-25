@@ -36,13 +36,15 @@ export default class TimeManagementApp extends React.Component {
     }
     __handleSaveActivity(activity) {
         this.setState({
-            showingCreate: false
+            showingCreate: false,
+            editingActivity: null
         });
-        ActivityAction.createActivity(activity);
+        ActivityAction.saveActivity(activity);
     }
     __handleCancelActivity(){
         this.setState({
-            showingCreate: false
+            showingCreate: false,
+            editingActivity: null
         })
     }
     __handleChange(){

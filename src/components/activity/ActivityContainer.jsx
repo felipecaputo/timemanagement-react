@@ -43,6 +43,8 @@ const DetailsModal = props => {
             {...props}
             show={true}
             activity={props.editingActivity}  
+            onSave={props.onSaveActivity} 
+            onCancel={props.onCancelEdit} 
             Fade={true}
             Transition={true}
         />

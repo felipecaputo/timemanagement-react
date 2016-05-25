@@ -46,11 +46,11 @@ class ActivityActions {
     updateActivityList(activityList) {
         Dispatcher.handleClientAction(Cons.ACTIVITY_LIST_UPDATED, activityList);
     }
-    createActivity(activity) {
-        ActivityUtils.addNewActivity(activity)
+    saveActivity(activity) {
+        ActivityUtils.saveActivity(activity)
             .then( activity => {
                 Dispatcher.dispatch({
-                    type: Cons.ACTIVITY_CREATED,
+                    type: Cons.ACTIVITY_UPDATED,
                     activity: activity
                 })
             })

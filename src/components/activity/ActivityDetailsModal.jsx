@@ -8,7 +8,7 @@ import ProjectSelect from '../project/ProjectSelect';
 export default class ActivityDetailsModal extends RegistrationModal {
     constructor(props){
         super(props);
-        this.state = Object.assign({visible: props.show}, props.activity);
+        this.state = Object.assign({}, props.activity);
     }
     __getBody(){ 
         return (
@@ -32,10 +32,10 @@ export default class ActivityDetailsModal extends RegistrationModal {
         
     }
     __handleSave(){
-        
+        this.props.onSave(this.state);
     }
     __handleCancel(){
-        
+        this.props.onCancel();
     }
 }
 

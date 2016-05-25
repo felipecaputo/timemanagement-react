@@ -72,6 +72,10 @@ class ActivityUtils {
     updateActivity(activity){
         return DB.activities.update(activity.id, activity);
     }
+    saveActivity(activity){
+        if (!activity.id || activity.id <= 0) return this.addNewActivity(activity)
+        else return new Promise((resolve, reject) => this.updateActivity(activity).then(() => resolve(activity)));
+    }
     /**
      * Stop the given Activity
      * 
