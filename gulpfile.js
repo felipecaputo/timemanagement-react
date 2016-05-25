@@ -14,6 +14,8 @@ var buffer = require('vinyl-buffer'); // Vinyl stream support
 var watchify = require('watchify'); // Watchify for source changes
 var merge = require('utils-merge'); // Object merge tool
 var duration = require('gulp-duration'); // Time aspects of your gulp process
+let jsxCovervage = require('gulp-jsx-coverage');
+let path = require('path');
 
 //to run tests
 var mocha = require('gulp-mocha');
@@ -31,6 +33,11 @@ var config = {
     outputFile: 'bundle.js',
     extensions: ['.js', '.json', '.jsx', '.react.js']
   },
+  css: {
+    bootstrapSrc: './node_modules/bootstrap/dist/',
+    cssDest: './assets/styles/',
+    fontsDest: './assets/fonts/'
+  }
 };
 
 
@@ -39,9 +46,9 @@ function mapError(err) {
   if (err.fileName) {
     // Regular error
     gutil.log(chalk.red(err.name)
-      + ': ' + chalk.yellow(err.fileName.replace(__dirname + '/src/js/', ''))
-      + ': ' + 'Line ' + chalk.magenta(err.lineNumber)
-      + ' & ' + 'Column ' + chalk.magenta(err.columnNumber || err.column)
+      + ': ' + chalk.yellow(err.fileName.replace(path.join(__dirname, '/src/js/'), ''))
+      + ': Line ' + chalk.magenta(err.lineNumber)
+      + ' & Column ' + chalk.magenta(err.columnNumber || err.column)
       + ': ' + chalk.blue(err.description));
   } else {
     // Browserify error..
@@ -65,30 +72,12 @@ function bundle(bundler) {
     .pipe(sourcemaps.write('./map')) // Set folder for sourcemaps to output to
     .pipe(gulp.dest(config.js.outputDir)) // Set the output folder
     .pipe(notify({
-      message: 'Generated file: <%= file.relative %>',
+      message: 'Generated file: <%= file.relative %>'
     })) // Output the file being created
     .pipe(bundleTimer) // Output time timing of the file creation
     .pipe(livereload()); // Reload the view in the browser
 }
 
-// Completes the final file outputs
-function bundleProd(bundler) {
-  var bundleTimer = duration('Javascript bundle time');
-
-  bundler
-    .bundle()
-    .on('error', mapError) // Map error reporting
-    .pipe(source(config.js.src)) // Set source name
-    .pipe(buffer()) // Convert to gulp pipeline
-    .pipe(rename(config.js.outputFile)) // Rename the output file
-    .pipe(sourcemaps.init({ loadMaps: true })) // Extract the inline sourcemaps
-    .pipe(sourcemaps.write('./map')) // Set folder for sourcemaps to output to
-    .pipe(gulp.dest(config.js.outputDir)) // Set the output folder
-    .pipe(notify({
-      message: 'Generated file: <%= file.relative %>',
-    })) // Output the file being created
-    .pipe(bundleTimer) // Output time timing of the file creation
-}
 
 function getBundler(willWatch) {
   let presets = ['es2015', 'react'];
@@ -119,19 +108,19 @@ gulp.task('default', ['copy-res'], function () {
 });
 
 gulp.task('copy-css', () => {
-  return gulp.src('./node_modules/bootstrap/dist/css/**/*.min.css')
-    .pipe(gulp.dest('./assets/styles'))
+  return gulp.src(config.css.bootstrapSrc + 'css/**/*.min.css')
+    .pipe(gulp.dest(config.css.cssDest))
 })
 
 gulp.task('copy-fonts', () => {
-  return gulp.src('./node_modules/bootstrap/dist/fonts/*.{ttf,woff,eof,svg}')
-    .pipe(gulp.dest('./assets/fonts'))
+  return gulp.src(config.css.bootstrapSrc + '/fonts/*.{ttf,woff,eof,svg}')
+    .pipe(gulp.dest(config.css.fontsDest))
 })
 
 gulp.task('copy-res', ['copy-css', 'copy-fonts']);
 
 gulp.task('build', ['copy-res'], () => {
-  return bundleProd(getBundler(false));
+  return bundle(getBundler(false));
 })
 
 
@@ -175,7 +164,7 @@ gulp.task('test:coverage', function (done) {
   gulp.doneCallback = function (err) {
     process.exit(err ? 1 : 0);
   }
-  require('gulp-jsx-coverage').createTask({
+  jsxCovervage.createTask({
     src: [
       TEST_FILES,
       'src/components/activity/*.jsx'
