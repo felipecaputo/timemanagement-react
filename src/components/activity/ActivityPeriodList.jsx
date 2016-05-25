@@ -5,14 +5,26 @@ import Cons from '../../constants/ActivityConstants';
 let colSize = {xs: 5, sm: 5, md:5, lg: 5};
 const ActivityPeriod = props => {
     let finishedPeriod = props.period.endDate !== Cons.INVALID_ENDTIME;
-    
     return (
         <Row className='period-row'>
             <Col {...colSize}>
-                <Input type="text" bsSize='small' defaultValue={new Date(props.period.start).toLocaleString()} />
+                <Input 
+                    type="text" 
+                    bsSize='small' 
+                    defaultValue={new Date(props.period.start).toLocaleString()}
+                    onChange={ e => { 
+                        console.log('Teste');  
+                        props.period.startDate = Date.parse(e.target.value) ? Date.parse(e.target.value) : props.period.startDate;
+                    } 
+                    } 
+                    />
             </Col>
             <Col {...colSize}>
-                <Input type="text" bsSize='small' value={finishedPeriod ? new Date(props.period.end).toLocaleString() : null} disabled={!finishedPeriod}/>
+                <Input 
+                    type="text" 
+                    bsSize='small' 
+                    defaultValue={finishedPeriod ? new Date(props.period.end).toLocaleString() : null} 
+                    disabled={!finishedPeriod}/>
             </Col>
         </Row>
     )
