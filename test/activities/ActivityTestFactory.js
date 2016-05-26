@@ -3,6 +3,10 @@ import Cons from '../../src/constants/ActivityConstants';
 export function getNewActivity() {    
     return {
         id: 1,
+        title: 'Awesome',
+        description: 'Nice',
+        projectId: 0,
+        categoryId: 1,
         status: Cons.ACTIVITY_STATUS.ACTIVE,
         lastStartTime: 0,
         lastEndTime: 0,

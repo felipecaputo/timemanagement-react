@@ -8,14 +8,17 @@ import {Modal} from 'react-bootstrap';
 import * as Factory from './ActivityTestFactory';
 
 describe('ActivityDetailsModal', () => {
-    let defProps = {categories: [], projects: []}
+    let defProps = {categories: [{id: 1, category: 'Test'}], projects: []}
     it('must be a modal', () => {
         expect(shallow(<ActivityDetailsModal {...defProps} activity={Factory.getFinishedActivity()}/>).find('Modal').length).to.be.equal(1);
     });
-    it('must show activity title', () => {
+    
+    it('must show activity data', () => {
         let act = Factory.getFinishedActivity();
         let wraper = shallow(<ActivityDetailsModal {...defProps} activity={act}/>);
-        // console.log(wraper.debug()); 
-        expect(1).to.be.equal(1);
+        expect(wraper.find('Input').first().props().value).to.be.equal(act.title);
+        expect(wraper.find('Input').get(1).props.value).to.be.equal(act.description);
+        expect(wraper.find('ProjectSelect').get(0).props.value).to.be.equal(act.projectId);
+        expect(wraper.find('CategorySelect').get(0).props.value).to.be.equal(act.categoryId);
     });
 })

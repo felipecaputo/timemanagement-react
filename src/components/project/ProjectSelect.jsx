@@ -23,7 +23,7 @@ export default class ProjectSelect extends React.Component {
             </ProjectModal>);
         }
         
-        let projectButton = <Button><span className="glyphicon glyphicon-plus" onClick={()=>this.__toggleModal(true)}></span></Button>;    
+        let projectButton = <Button onClick={()=>this.__toggleModal(true)}><span className="glyphicon glyphicon-plus" ></span></Button>;    
         return (
             
             <div>

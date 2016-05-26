@@ -25,11 +25,8 @@ export default class CategorySelect extends React.Component {
             catModal = this.__categoryModal();
             
         let button = (
-            <Button>
-                <span 
-                    className="glyphicon glyphicon-plus" 
-                    onClick={()=>{this.__toggleModal(true)}}>
-                </span>
+            <Button onClick={()=>{this.__toggleModal(true)}}>
+                <span className="glyphicon glyphicon-plus" > </span>
             </Button>);
         
         let options = this.props.categories.map( 
