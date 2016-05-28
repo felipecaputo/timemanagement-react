@@ -25,8 +25,8 @@ export default class RegistrationModal extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <ButtonToolbar>
-                            <Button onClick={this.__handleSave} bsStyle="primary">Save</Button>
-                            <Button onClick={this.__handleCancel} bsStyle="danger">Cancel</Button>
+                            <Button id="modalSaveBtn" onClick={this.__handleSave} bsStyle="primary">Save</Button>
+                            <Button id="modalCancelBtn" onClick={this.__handleCancel} bsStyle="danger">Cancel</Button>
                         </ButtonToolbar>
                     </Modal.Footer>
                 </Modal>

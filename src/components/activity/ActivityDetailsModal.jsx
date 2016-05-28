@@ -23,7 +23,7 @@ export default class ActivityDetailsModal extends RegistrationModal {
                     id="CategorySelect" 
                     value={this.state.categoryId} 
                     onChange={ e=> this.setState({categoryId: e.target.value, category: e.target.options[e.target.selectedIndex].text}) }/>
-                <Input label="Description" type="textarea" value={this.state.description}  onChange={e => this.setState({description: e.target.value})} />
+                <Input id='activityDescription' label="Description" type="textarea" value={this.state.description}  onChange={e => this.setState({description: e.target.value})} />
                 <ActivityPeriodsList activity={this.props.activity}/>
             </form>
         )

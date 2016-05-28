@@ -179,8 +179,8 @@ gulp.task('test:coverage', function (done) {
 
     threshold: [                                     // fail the task when coverage lower than one of this array 
       {
-        type: 'lines',                           // one of 'lines', 'statements', 'functions', 'banches' 
-        min: 30
+        type: 'statements',                           // one of 'lines', 'statements', 'functions', 'banches' 
+        min: 75
       }
     ],
 
