@@ -10,5 +10,17 @@
     "react-bootstrap": "registry:dt/react-bootstrap#0.0.0+20160423135514",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "sinon": "registry:dt/sinon#1.16.0+20160517064723"
+  },
+  "ambientDevDependencies": {
+    "gulp-babel": "registry:dt/gulp-babel#6.1.0+20160316171810",
+    "gulp-rename": "registry:dt/gulp-rename#0.0.0+20160316155526",
+    "gulp-uglify": "registry:dt/gulp-uglify#0.0.0+20160316155526",
+    "gulp-util": "registry:dt/gulp-util#0.0.0+20160316155526",
+    "jsdom": "registry:dt/jsdom#2.0.0+20160316155526",
+    "react": "registry:dt/react#0.14.0+20160526134601",
+    "react-bootstrap": "registry:dt/react-bootstrap#0.0.0+20160526141239",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
+    "vinyl-buffer": "registry:dt/vinyl-buffer#0.0.0+20160316155526",
+    "vinyl-source-stream": "registry:dt/vinyl-source-stream#0.0.0+20160316155526"
   }
 }

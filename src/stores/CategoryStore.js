@@ -7,8 +7,8 @@ import CategoryUtils from '../util/CategoryUtils';
 import CategoryActions from '../actions/CategoryActionCreator';
 
 class CategoryStore extends Utils.Store {
-    constructor(props){
-        super(props);
+    constructor(dispatcher){
+        super(dispatcher);
         this.catList = [];
         CategoryActions.loadCategories();
     }
@@ -27,8 +27,6 @@ class CategoryStore extends Utils.Store {
                 break;
             case Cons.CATEGORY_ADDED:
                 this.__addCategory(payload.data);
-                break;
-            default:
                 break;
         }
     }

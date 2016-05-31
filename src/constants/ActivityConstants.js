@@ -1,4 +1,4 @@
-'use strict';
+import keymirror from 'keymirror';
 
 export default {
     ACTIVITY_STARTED: 'ACTIVITY_STARTED',
